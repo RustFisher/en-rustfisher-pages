@@ -65,7 +65,7 @@
   </url>
   
   <url>
-    <loc>https://enthings.rustfisher.com/art/py/op-funnel/funnel_chart_1.html</loc>
+    <loc>https://enthings.rustfisher.com/art/py/op-funnel/funnel_chart_2.html</loc>
     
     <lastmod>2025-08-01</lastmod>
     
@@ -74,7 +74,7 @@
   </url>
   
   <url>
-    <loc>https://enthings.rustfisher.com/art/py/op-funnel/funnel_chart_2.html</loc>
+    <loc>https://enthings.rustfisher.com/art/py/op-funnel/funnel_chart_1.html</loc>
     
     <lastmod>2025-08-01</lastmod>
     
@@ -101,6 +101,27 @@
 
   
   <url>
+    <loc>https://enthings.rustfisher.com/tags/self-improvement/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://enthings.rustfisher.com/tags/dopamine/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://enthings.rustfisher.com/tags/AI/</loc>
+    <lastmod>2026-09-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://enthings.rustfisher.com/tags/ChatGPT/</loc>
     <lastmod>2026-09-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -109,13 +130,6 @@
   
   <url>
     <loc>https://enthings.rustfisher.com/tags/Gemini/</loc>
-    <lastmod>2026-09-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://enthings.rustfisher.com/tags/AI/</loc>
     <lastmod>2026-09-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -142,31 +156,17 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>https://enthings.rustfisher.com/tags/self-improvement/</loc>
-    <lastmod>2026-09-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://enthings.rustfisher.com/tags/dopamine/</loc>
-    <lastmod>2026-09-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
   
   <url>
-    <loc>https://enthings.rustfisher.com/categories/ai/</loc>
+    <loc>https://enthings.rustfisher.com/categories/self-improvement/</loc>
     <lastmod>2026-09-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://enthings.rustfisher.com/categories/self-improvement/</loc>
+    <loc>https://enthings.rustfisher.com/categories/ai/</loc>
     <lastmod>2026-09-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
