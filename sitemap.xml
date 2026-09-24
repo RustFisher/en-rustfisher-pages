@@ -65,15 +65,6 @@
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_1.html</loc>
-    
-    <lastmod>2025-08-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_2.html</loc>
     
     <lastmod>2025-08-01</lastmod>
@@ -91,6 +82,15 @@
     <priority>0.6</priority>
   </url>
   
+  <url>
+    <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_1.html</loc>
+    
+    <lastmod>2025-08-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
 
   <url>
     <loc>https://en.rustfisher.com/</loc>
@@ -101,13 +101,6 @@
 
   
   <url>
-    <loc>https://en.rustfisher.com/tags/AI/</loc>
-    <lastmod>2026-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://en.rustfisher.com/tags/ChatGPT/</loc>
     <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -116,6 +109,13 @@
   
   <url>
     <loc>https://en.rustfisher.com/tags/Gemini/</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/tags/AI/</loc>
     <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
