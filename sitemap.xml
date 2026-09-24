@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://en.rustfisher.com/ai/pelican-bike-demo202609-gpt6astra-gemini3-8flash-deepseek4-1flash/</loc>
+    
+    <lastmod>2026-09-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://en.rustfisher.com/self-improvement/you-need-bored/</loc>
     
     <lastmod>2026-09-18</lastmod>
@@ -65,7 +74,7 @@
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_1.html</loc>
+    <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_3.html</loc>
     
     <lastmod>2025-08-01</lastmod>
     
@@ -83,7 +92,7 @@
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_3.html</loc>
+    <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_1.html</loc>
     
     <lastmod>2025-08-01</lastmod>
     
@@ -101,13 +110,6 @@
 
   
   <url>
-    <loc>https://en.rustfisher.com/tags/AI/</loc>
-    <lastmod>2026-09-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://en.rustfisher.com/tags/ChatGPT/</loc>
     <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
@@ -116,6 +118,20 @@
   
   <url>
     <loc>https://en.rustfisher.com/tags/Gemini/</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/tags/AI/</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/tags/GPT/</loc>
     <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
