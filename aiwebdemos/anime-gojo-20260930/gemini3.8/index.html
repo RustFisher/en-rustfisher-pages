@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Satoru Gojo (五条 悟) - 2D SVG Animation | Limitless Void</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-75DW9T0QB0"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-75DW9T0QB0'); </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Noto+Serif+JP:wght@600;900&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #04050a;
+      --cyan-glow: #00f2fe;
+      --cyan-bright: #4facfe;
+      --six-eyes-blue: #00d2ff;
+      --purple-core: #9333ea;
+      --purple-glow: #c084fc;
+      --red-reversal: #ef4444;
+      --blue-laplace: #3b82f6;
+      --glass-bg: rgba(10, 14, 28, 0.65);
+      --glass-border: rgba(99, 179, 237, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 45%, #0c1024 0%, #050711 50%, #020307 100%);
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Ambient Cosmic Canvas */
+    #cosmic-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Background Spatial Distortion */
+    .space-distortion {
+      position: absolute;
+      inset: -50px;
+      background: radial-gradient(circle at center, transparent 30%, rgba(13, 8, 35, 0.4) 70%, rgba(3, 4, 10, 0.95) 100%);
+      z-index: 2;
+      pointer-events: none;
+      mix-blend-mode: overlay;
+    }
+
+    /* Main Container */
+    .scene-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+    }
+
+    .svg-wrapper {
+      position: relative;
+      width: min(92vh, 880px);
+      height: min(92vh, 880px);
+      filter: drop-shadow(0 0 45px rgba(0, 210, 255, 0.18));
+      transition: transform 0.2s cubic-bezier(0.2, 0, 0.3, 1), filter 0.5s ease;
+      cursor: crosshair;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* Top HUD Header */
+    .hud-header {
+      position: absolute;
+      top: 28px;
+      left: 36px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      pointer-events: auto;
+    }
+
+    .hud-title-japanese {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: 0.25em;
+      background: linear-gradient(135deg, #ffffff 0%, #b2ebf2 50%, #4facfe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hud-tag {
+      font-size: 0.75rem;
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.2em;
+      padding: 4px 10px;
+      border: 1px solid rgba(0, 242, 254, 0.45);
+      background: rgba(0, 242, 254, 0.1);
+      border-radius: 4px;
+      color: #7dd3fc;
+      text-shadow: 0 0 10px rgba(0, 242, 254, 0.7);
+    }
+
+    .hud-sub {
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.35em;
+      color: #94a3b8;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* Technique Badges Status */
+    .technique-status {
+      position: absolute;
+      top: 32px;
+      right: 36px;
+      z-index: 10;
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .current-state-badge {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.15rem;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      padding: 6px 18px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 30px;
+      color: #38bdf8;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(56, 189, 248, 0.2);
+      transition: all 0.4s ease;
+    }
+
+    .state-desc {
+      font-size: 0.78rem;
+      color: #64748b;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: 'Cinzel', serif;
+    }
+
+    /* Floating Action Control Dock */
+    .controls-dock {
+      position: absolute;
+      bottom: 28px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 18px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 210, 255, 0.15);
+      max-width: 95vw;
+      overflow-x: auto;
+    }
+
+    .btn-action {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e2e8f0;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+    }
+
+    .btn-action span.kanji {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 900;
+      font-size: 0.95rem;
+    }
+
+    .btn-action:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.6);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
+    }
+
+    .btn-action.active {
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.25), rgba(147, 51, 234, 0.3));
+      border-color: #00f2fe;
+      color: #fff;
+      box-shadow: 0 0 20px rgba(0, 242, 254, 0.4), inset 0 0 10px rgba(0, 242, 254, 0.3);
+    }
+
+    .btn-action.purple-btn.active {
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.35), rgba(236, 72, 153, 0.3));
+      border-color: #c084fc;
+      box-shadow: 0 0 25px rgba(168, 85, 247, 0.5), inset 0 0 12px rgba(168, 85, 247, 0.3);
+    }
+
+    .btn-action.void-btn.active {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.35), rgba(59, 130, 246, 0.3));
+      border-color: #38bdf8;
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
+    }
+
+    .btn-sound {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #94a3b8;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+    }
+
+    .btn-sound:hover {
+      color: #fff;
+      border-color: #38bdf8;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+    }
+
+    /* Keyframes for SVG Dynamic Animation */
+    @keyframes hairFloatingFront {
+      0%, 100% {
+        transform: rotate(0deg) translate(0, 0);
+      }
+      50% {
+        transform: rotate(-1.5deg) translate(-2px, -3px);
+      }
+    }
+
+    @keyframes hairFloatingBack {
+      0%, 100% {
+        transform: rotate(0deg) translate(0, 0);
+      }
+      50% {
+        transform: rotate(2deg) translate(3px, -4px);
+      }
+    }
+
+    @keyframes hairFloatingRight {
+      0%, 100% {
+        transform: rotate(0deg) translate(0, 0);
+      }
+      50% {
+        transform: rotate(2.5deg) translate(4px, -2px);
+      }
+    }
+
+    @keyframes eyeGlowPulse {
+      0%, 100% {
+        filter: drop-shadow(0 0 6px #00f2fe) drop-shadow(0 0 16px rgba(0, 242, 254, 0.7));
+      }
+      50% {
+        filter: drop-shadow(0 0 12px #00f2fe) drop-shadow(0 0 30px rgba(0, 242, 254, 0.95)) drop-shadow(0 0 45px #38bdf8);
+      }
+    }
+
+    @keyframes eyeIrisSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes eyeIrisCounterSpin {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+
+    @keyframes infinityRipple {
+      0% {
+        r: 30;
+        opacity: 0.9;
+        stroke-width: 3.5;
+      }
+      100% {
+        r: 360;
+        opacity: 0;
+        stroke-width: 0.5;
+      }
+    }
+
+    @keyframes cosmicRingRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes domainAuraPulse {
+      0%, 100% {
+        opacity: 0.35;
+        transform: scale(0.98);
+      }
+      50% {
+        opacity: 0.75;
+        transform: scale(1.04);
+      }
+    }
+
+    @keyframes purpleSingularity {
+      0%, 100% {
+        transform: scale(1) rotate(0deg);
+        filter: drop-shadow(0 0 20px #a855f7) drop-shadow(0 0 50px #9333ea);
+      }
+      50% {
+        transform: scale(1.18) rotate(180deg);
+        filter: drop-shadow(0 0 35px #c084fc) drop-shadow(0 0 85px #7e22ce) drop-shadow(0 0 120px #ec4899);
+      }
+    }
+
+    @keyframes orbOrbitRed {
+      0% { transform: rotate(0deg) translateX(90px) rotate(0deg); }
+      100% { transform: rotate(360deg) translateX(90px) rotate(-360deg); }
+    }
+
+    @keyframes orbOrbitBlue {
+      0% { transform: rotate(180deg) translateX(90px) rotate(-180deg); }
+      100% { transform: rotate(540deg) translateX(90px) rotate(-540deg); }
+    }
+
+    @keyframes sparkArc {
+      0% { stroke-dashoffset: 120; opacity: 0; }
+      40% { opacity: 1; }
+      80% { opacity: 0.9; }
+      100% { stroke-dashoffset: 0; opacity: 0; }
+    }
+
+    @keyframes floatGentle {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-7px); }
+    }
+
+    /* Dynamic SVG Classes */
+    .hair-front-strand {
+      transform-origin: 400px 220px;
+      animation: hairFloatingFront 4.5s ease-in-out infinite;
+    }
+
+    .hair-back-strand {
+      transform-origin: 380px 200px;
+      animation: hairFloatingBack 5.5s ease-in-out infinite;
+    }
+
+    .hair-right-strand {
+      transform-origin: 460px 230px;
+      animation: hairFloatingRight 5s ease-in-out infinite;
+    }
+
+    .six-eyes-group {
+      animation: eyeGlowPulse 2.8s ease-in-out infinite;
+      transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .iris-fractal-1 {
+      transform-origin: 362px 342px;
+      animation: eyeIrisSpin 25s linear infinite;
+    }
+    .iris-fractal-2 {
+      transform-origin: 442px 342px;
+      animation: eyeIrisSpin 25s linear infinite;
+    }
+    .iris-inner-1 {
+      transform-origin: 362px 342px;
+      animation: eyeIrisCounterSpin 15s linear infinite;
+    }
+    .iris-inner-2 {
+      transform-origin: 442px 342px;
+      animation: eyeIrisCounterSpin 15s linear infinite;
+    }
+
+    .domain-ring-spin {
+      transform-origin: 400px 420px;
+      animation: cosmicRingRotate 60s linear infinite;
+    }
+    .domain-ring-reverse {
+      transform-origin: 400px 420px;
+      animation: cosmicRingRotate 45s linear infinite reverse;
+    }
+
+    .infinity-ripple-circle {
+      transform-origin: 400px 420px;
+      animation: infinityRipple 3.5s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+    }
+    .infinity-ripple-circle:nth-child(2) {
+      animation-delay: 1.1s;
+    }
+    .infinity-ripple-circle:nth-child(3) {
+      animation-delay: 2.2s;
+    }
+
+    .purple-core-node {
+      transform-origin: 640px 430px;
+      animation: purpleSingularity 3s ease-in-out infinite;
+    }
+
+    .red-reversal-orb {
+      transform-origin: 640px 430px;
+      animation: orbOrbitRed 2.4s linear infinite;
+    }
+
+    .blue-laplace-orb {
+      transform-origin: 640px 430px;
+      animation: orbOrbitBlue 2.4s linear infinite;
+    }
+
+    /* Blindfold Dynamic Transition */
+    #blindfold-group {
+      transition: transform 0.65s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.5s ease;
+      transform-origin: 400px 335px;
+    }
+
+    .blindfold-lowered {
+      transform: translateY(48px) scaleY(0.68) scaleX(0.96);
+      opacity: 0.2;
+    }
+
+    .blindfold-hidden {
+      transform: translateY(-80px) scale(0.85);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Hand Mudra Seal animation */
+    .hand-mudra {
+      transform-origin: 400px 580px;
+      animation: floatGentle 4s ease-in-out infinite;
+      transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    /* Interactive Cursor Tip */
+    .cursor-hint {
+      position: absolute;
+      bottom: 90px;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: rgba(148, 163, 184, 0.7);
+      text-transform: uppercase;
+      font-weight: 500;
+      pointer-events: none;
+      z-index: 10;
+      transition: opacity 0.5s;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hud-header {
+        top: 16px;
+        left: 20px;
+      }
+      .hud-title-japanese {
+        font-size: 1.6rem;
+      }
+      .technique-status {
+        top: 20px;
+        right: 20px;
+      }
+      .current-state-badge {
+        font-size: 0.95rem;
+        padding: 5px 14px;
+      }
+      .controls-dock {
+        bottom: 16px;
+        gap: 8px;
+        padding: 8px 14px;
+      }
+      .btn-action {
+        padding: 8px 14px;
+        font-size: 0.8rem;
+      }
+      .cursor-hint {
+        bottom: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Canvas for Cosmic Energy Sparks -->
+  <canvas id="cosmic-canvas"></canvas>
+  <div class="space-distortion"></div>
+
+  <!-- HUD Overlay -->
+  <header class="hud-header">
+    <div class="hud-title-japanese">
+      五条 悟
+      <span class="hud-tag">特級呪術師</span>
+    </div>
+    <div class="hud-sub">SATORU GOJO • THE STRONGEST</div>
+  </header>
+
+  <div class="technique-status">
+    <div class="current-state-badge" id="stateBadge">六眼・無下限</div>
+    <div class="state-desc" id="stateDesc">THE SIX EYES • LIMITLESS ACTIVE</div>
+  </div>
+
+  <div class="cursor-hint" id="cursorHint">Move mouse to warp space & eye tracking • Click to discharge cursed energy</div>
+
+  <!-- Interactive Scene & Master SVG -->
+  <main class="scene-container" id="sceneContainer">
+    <div class="svg-wrapper" id="svgWrapper">
+      <svg id="gojoSvg" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Cosmic Gradients -->
+          <radialGradient id="grad-cosmic-void" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#020410" stop-opacity="0.95" />
+            <stop offset="45%" stop-color="#0b1736" stop-opacity="0.6" />
+            <stop offset="85%" stop-color="#1e1b4b" stop-opacity="0.25" />
+            <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+          </radialGradient>
+
+          <!-- Hair Shading Gradients -->
+          <linearGradient id="grad-hair-base" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="65%" stop-color="#e2e8f0" />
+            <stop offset="100%" stop-color="#94a3b8" />
+          </linearGradient>
+
+          <linearGradient id="grad-hair-highlight" x1="20%" y1="0%" x2="80%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="50%" stop-color="#dbeafe" />
+            <stop offset="100%" stop-color="#a5b4fc" />
+          </linearGradient>
+
+          <linearGradient id="grad-hair-shadow" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#94a3b8" />
+            <stop offset="100%" stop-color="#475569" />
+          </linearGradient>
+
+          <!-- Skin Gradients -->
+          <linearGradient id="grad-skin" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#fff5eb" />
+            <stop offset="70%" stop-color="#faebd7" />
+            <stop offset="100%" stop-color="#e8d5c4" />
+          </linearGradient>
+
+          <linearGradient id="grad-skin-shadow" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#e2cfbf" />
+            <stop offset="100%" stop-color="#c9b2a1" />
+          </linearGradient>
+
+          <!-- Uniform Jujutsu High Jacket Gradients -->
+          <linearGradient id="grad-jacket-base" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#18192b" />
+            <stop offset="40%" stop-color="#101120" />
+            <stop offset="100%" stop-color="#07080e" />
+          </linearGradient>
+
+          <linearGradient id="grad-jacket-collar" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#24263f" />
+            <stop offset="50%" stop-color="#151624" />
+            <stop offset="100%" stop-color="#282a47" />
+          </linearGradient>
+
+          <linearGradient id="grad-metal-button" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffd700" />
+            <stop offset="50%" stop-color="#f59e0b" />
+            <stop offset="100%" stop-color="#b45309" />
+          </linearGradient>
+
+          <!-- Six Eyes Gradients -->
+          <radialGradient id="grad-six-eyes" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="15%" stop-color="#cbf9ff" />
+            <stop offset="45%" stop-color="#00f2fe" />
+            <stop offset="75%" stop-color="#0284c7" />
+            <stop offset="95%" stop-color="#082f49" />
+            <stop offset="100%" stop-color="#020617" />
+          </radialGradient>
+
+          <!-- Blindfold Gradient -->
+          <linearGradient id="grad-blindfold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1f242d" />
+            <stop offset="40%" stop-color="#0f1115" />
+            <stop offset="70%" stop-color="#1a1c23" />
+            <stop offset="100%" stop-color="#08090b" />
+          </linearGradient>
+
+          <!-- Purple Singularity Gradient -->
+          <radialGradient id="grad-hollow-purple" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="20%" stop-color="#f5d0fe" />
+            <stop offset="45%" stop-color="#c084fc" />
+            <stop offset="70%" stop-color="#9333ea" />
+            <stop offset="90%" stop-color="#581c87" />
+            <stop offset="100%" stop-color="#0f051d" />
+          </radialGradient>
+
+          <!-- Red Reversal & Blue Lapse Gradients -->
+          <radialGradient id="grad-red-reversal" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="35%" stop-color="#f87171" />
+            <stop offset="75%" stop-color="#dc2626" />
+            <stop offset="100%" stop-color="#7f1d1d" />
+          </radialGradient>
+
+          <radialGradient id="grad-blue-lapse" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="35%" stop-color="#60a5fa" />
+            <stop offset="75%" stop-color="#2563eb" />
+            <stop offset="100%" stop-color="#1e3a8a" />
+          </radialGradient>
+
+          <!-- SVG Glowing Filters -->
+          <filter id="glow-cyan" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur1" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="blur2" />
+            <feMerge>
+              <feMergeNode in="blur2" />
+              <feMergeNode in="blur1" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+
+          <filter id="glow-purple-strong" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur1" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="28" result="blur2" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="60" result="blur3" />
+            <feMerge>
+              <feMergeNode in="blur3" />
+              <feMergeNode in="blur2" />
+              <feMergeNode in="blur1" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+
+          <filter id="infinity-distortion">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="18" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+
+          <!-- Cursed Energy Particle Filter -->
+          <filter id="curse-aura" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="10" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0.85   0 0 0 0 1  0 0 0 0.7 0"/>
+            <feBlend in="SourceGraphic" in2="blurOut" mode="normal"/>
+          </filter>
+        </defs>
+
+        <!-- BACKGROUND ENVIRONMENT: Domain Expansion / Cosmic Space -->
+        <g id="domain-background-group" style="transition: opacity 0.8s ease;">
+          <!-- Giant Void Celestial Disk -->
+          <circle cx="400" cy="420" r="380" fill="url(#grad-cosmic-void)" />
+
+          <!-- Infinite Void Cursed Runes & Coordinate Rings -->
+          <g class="domain-ring-spin" opacity="0.35">
+            <circle cx="400" cy="420" r="320" fill="none" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="14 18 4 18" />
+            <circle cx="400" cy="420" r="300" fill="none" stroke="#818cf8" stroke-width="0.8" stroke-dasharray="8 6" />
+            <!-- Celestial coordinate ticks -->
+            <path d="M400,90 L400,110 M400,730 L400,750 M70,420 L90,420 M710,420 L730,420" stroke="#00f2fe" stroke-width="2" />
+            <path d="M180,200 L195,215 M620,640 L605,625 M180,640 L195,625 M620,200 L605,215" stroke="#38bdf8" stroke-width="1.5" />
+          </g>
+
+          <g class="domain-ring-reverse" opacity="0.25">
+            <circle cx="400" cy="420" r="260" fill="none" stroke="#c084fc" stroke-width="1" stroke-dasharray="25 15 10 15" />
+            <circle cx="400" cy="420" r="230" fill="none" stroke="#60a5fa" stroke-width="0.75" stroke-dasharray="4 8" />
+          </g>
+
+          <!-- Infinity Space Distortion Ripples (Expanding from Core) -->
+          <g id="infinity-ripples" opacity="0.6">
+            <circle class="infinity-ripple-circle" cx="400" cy="420" r="40" fill="none" stroke="#00f2fe" stroke-width="2" filter="url(#glow-cyan)" />
+            <circle class="infinity-ripple-circle" cx="400" cy="420" r="40" fill="none" stroke="#818cf8" stroke-width="2" filter="url(#glow-cyan)" />
+            <circle class="infinity-ripple-circle" cx="400" cy="420" r="40" fill="none" stroke="#38bdf8" stroke-width="2" />
+          </g>
+        </g>
+
+        <!-- SATORU GOJO CHARACTER GROUP -->
+        <g id="gojo-character" style="transform-origin: 400px 420px;">
+
+          <!-- 1. BACK HAIR (Spikes behind shoulders & head) -->
+          <g id="hair-back" class="hair-back-strand">
+            <!-- Left upper back spikes -->
+            <path d="M290,260 Q240,210 210,180 Q250,225 260,280 Z" fill="url(#grad-hair-shadow)" />
+            <path d="M310,210 Q260,140 230,110 Q270,170 300,240 Z" fill="url(#grad-hair-base)" />
+            <path d="M350,170 Q320,80 290,50 Q330,120 350,200 Z" fill="url(#grad-hair-highlight)" />
+            <!-- Crown spiky tufts -->
+            <path d="M380,150 Q380,50 370,10 Q405,80 410,160 Z" fill="#ffffff" />
+            <path d="M420,150 Q450,50 470,20 Q440,90 430,170 Z" fill="url(#grad-hair-base)" />
+            <!-- Right upper back spikes -->
+            <path d="M460,180 Q520,90 560,70 Q510,140 480,220 Z" fill="url(#grad-hair-highlight)" />
+            <path d="M490,230 Q560,170 600,140 Q540,220 510,270 Z" fill="url(#grad-hair-base)" />
+            <path d="M510,270 Q580,240 610,220 Q550,280 510,320 Z" fill="url(#grad-hair-shadow)" />
+          </g>
+
+          <!-- 2. BODY & JUJUTSU HIGH UNIFORM -->
+          <g id="body-uniform">
+            <!-- Upper Torso & Shoulders -->
+            <path d="M190,780 L230,580 L290,510 L330,480 L470,480 L510,510 L570,580 L610,780 Z" fill="url(#grad-jacket-base)" />
+            
+            <!-- Torso seam & creases -->
+            <path d="M340,510 L350,780 M460,510 L450,780" stroke="#1f2338" stroke-width="3" stroke-linecap="round" />
+            <path d="M400,480 L400,780" stroke="#161828" stroke-width="4" />
+            <path d="M290,510 Q350,560 400,560 Q450,560 510,510" fill="none" stroke="#252a42" stroke-width="2.5" />
+
+            <!-- Chest Depth Shadow -->
+            <path d="M330,480 L400,530 L470,480 L440,490 L400,500 L360,490 Z" fill="#090a14" opacity="0.6" />
+
+            <!-- Neck / Throat Area -->
+            <path d="M350,420 L350,490 Q400,520 450,490 L450,420 Z" fill="url(#grad-skin-shadow)" />
+            <!-- Adam's Apple & Neck tendons -->
+            <path d="M400,445 L395,465 L405,465 Z" fill="#bfa593" opacity="0.8" />
+            <path d="M375,430 Q370,465 358,490" stroke="#cca793" stroke-width="2" fill="none" opacity="0.6" />
+            <path d="M425,430 Q430,465 442,490" stroke="#cca793" stroke-width="2" fill="none" opacity="0.6" />
+
+            <!-- High Collar (Iconic Gojo Jacket Collar) -->
+            <!-- Left collar wing -->
+            <path d="M320,440 L345,395 L375,445 L350,500 L315,480 Z" fill="url(#grad-jacket-collar)" stroke="#313654" stroke-width="1.5" />
+            <!-- Right collar wing -->
+            <path d="M480,440 L455,395 L425,445 L450,500 L485,480 Z" fill="url(#grad-jacket-collar)" stroke="#313654" stroke-width="1.5" />
+            <!-- Collar Front Clasp/Overcoat Overlap -->
+            <path d="M340,450 Q400,475 460,450 L450,505 Q400,525 350,505 Z" fill="#131522" stroke="#282c44" stroke-width="2" />
+            
+            <!-- Jujutsu High Golden Button / Clasp Emblem -->
+            <circle cx="400" cy="505" r="9" fill="url(#grad-metal-button)" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.8))" />
+            <circle cx="400" cy="505" r="5" fill="#fef08a" opacity="0.8" />
+            <!-- Swirl engraving on button -->
+            <path d="M397,504 Q400,501 403,504 Q401,508 398,506" fill="none" stroke="#92400e" stroke-width="1.2" stroke-linecap="round" />
+          </g>
+
+          <!-- 3. HEAD & FACE STRUCTURE -->
+          <g id="head-base">
+            <!-- Ears -->
+            <path d="M312,325 Q295,340 300,375 Q308,400 326,400 Z" fill="url(#grad-skin-shadow)" />
+            <path d="M308,340 Q302,360 314,375" fill="none" stroke="#caa28e" stroke-width="1.5" />
+            
+            <path d="M488,325 Q505,340 500,375 Q492,400 474,400 Z" fill="url(#grad-skin-shadow)" />
+            <path d="M492,340 Q498,360 486,375" fill="none" stroke="#caa28e" stroke-width="1.5" />
+
+            <!-- Jawline & Face Shape (Sculpted Anime Chin) -->
+            <path d="M315,310 L322,380 L350,430 L400,456 L450,430 L478,380 L485,310 Z" fill="url(#grad-skin)" />
+            <!-- Chin & Jaw Shadow -->
+            <path d="M360,435 L400,456 L440,435 L400,442 Z" fill="#caa590" opacity="0.6" />
+
+            <!-- Nose (Minimalist Anime Nose with delicate shadow) -->
+            <path d="M398,370 L402,378 L397,381 Z" fill="#caa18b" />
+            <path d="M402,374 L403,378" stroke="#a47a65" stroke-width="1" stroke-linecap="round" />
+
+            <!-- Mouth (Confident / Playful Smirk) -->
+            <g id="gojo-mouth">
+              <path d="M378,408 Q398,414 424,405" fill="none" stroke="#78350f" stroke-width="2.2" stroke-linecap="round" />
+              <!-- Subtle lower lip accent shadow -->
+              <path d="M395,416 Q402,418 410,416" stroke="#c09480" stroke-width="2" stroke-linecap="round" />
+              <!-- Smirk dimple -->
+              <path d="M424,405 L428,402" stroke="#78350f" stroke-width="1.5" stroke-linecap="round" />
+            </g>
+          </g>
+
+          <!-- 4. SIX EYES (六眼 - RIKUGAN) -->
+          <g id="six-eyes-group" class="six-eyes-group">
+            <!-- Left Eye -->
+            <g id="left-eye-container">
+              <!-- Sclera (Eye White with pale azure ambiance) -->
+              <path d="M336,340 Q360,330 388,342 Q362,354 336,340 Z" fill="#f0f9ff" stroke="#93c5fd" stroke-width="0.8" />
+              
+              <!-- Iris Mask Clip -->
+              <g clip-path="url(#left-eye-clip)">
+                <clipPath id="left-eye-clip">
+                  <path d="M336,340 Q360,330 388,342 Q362,354 336,340 Z" />
+                </clipPath>
+                <!-- Iris Circle & Limitless Cosmos Detail -->
+                <g id="left-iris" class="eye-pupil-tracker" transform="translate(0, 0)">
+                  <circle cx="362" cy="341" r="14" fill="url(#grad-six-eyes)" />
+                  <!-- Rotating Iris Sacred Geometry -->
+                  <g class="iris-fractal-1" opacity="0.85">
+                    <circle cx="362" cy="341" r="11" fill="none" stroke="#38bdf8" stroke-width="0.6" stroke-dasharray="3 2" />
+                    <line x1="351" y1="341" x2="373" y2="341" stroke="#e0f2fe" stroke-width="0.5" />
+                    <line x1="362" y1="330" x2="362" y2="352" stroke="#e0f2fe" stroke-width="0.5" />
+                    <circle cx="362" cy="341" r="8" fill="none" stroke="#7dd3fc" stroke-width="0.6" />
+                  </g>
+                  <g class="iris-inner-1" opacity="0.9">
+                    <!-- Star-burst Pupil -->
+                    <circle cx="362" cy="341" r="4.5" fill="#020617" />
+                    <circle cx="362" cy="341" r="2" fill="#38bdf8" />
+                  </g>
+                  <!-- Celestial Eye Specular Reflections (Twin Stars) -->
+                  <circle cx="358" cy="337" r="2.8" fill="#ffffff" filter="drop-shadow(0 0 2px #fff)" />
+                  <circle cx="366" cy="343" r="1.5" fill="#ffffff" />
+                </g>
+              </g>
+
+              <!-- Upper Eyelid & Anime Lashes (White/Platinum Frost) -->
+              <path d="M333,340 Q360,326 391,341" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
+              <path d="M334,338 Q360,324 391,339" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+              <path d="M344,348 Q362,355 385,344" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-linecap="round" />
+              <!-- Eye Crease (Double Eyelid) -->
+              <path d="M340,332 Q362,323 384,333" fill="none" stroke="#caa08c" stroke-width="1.4" />
+            </g>
+
+            <!-- Right Eye -->
+            <g id="right-eye-container">
+              <!-- Sclera -->
+              <path d="M412,342 Q440,330 464,340 Q438,354 412,342 Z" fill="#f0f9ff" stroke="#93c5fd" stroke-width="0.8" />
+              
+              <!-- Iris Mask Clip -->
+              <g clip-path="url(#right-eye-clip)">
+                <clipPath id="right-eye-clip">
+                  <path d="M412,342 Q440,330 464,340 Q438,354 412,342 Z" />
+                </clipPath>
+                <!-- Iris Circle & Limitless Cosmos Detail -->
+                <g id="right-iris" class="eye-pupil-tracker" transform="translate(0, 0)">
+                  <circle cx="438" cy="341" r="14" fill="url(#grad-six-eyes)" />
+                  <!-- Rotating Iris Sacred Geometry -->
+                  <g class="iris-fractal-2" opacity="0.85">
+                    <circle cx="438" cy="341" r="11" fill="none" stroke="#38bdf8" stroke-width="0.6" stroke-dasharray="3 2" />
+                    <line x1="427" y1="341" x2="449" y2="341" stroke="#e0f2fe" stroke-width="0.5" />
+                    <line x1="438" y1="330" x2="438" y2="352" stroke="#e0f2fe" stroke-width="0.5" />
+                    <circle cx="438" cy="341" r="8" fill="none" stroke="#7dd3fc" stroke-width="0.6" />
+                  </g>
+                  <g class="iris-inner-2" opacity="0.9">
+                    <!-- Star-burst Pupil -->
+                    <circle cx="438" cy="341" r="4.5" fill="#020617" />
+                    <circle cx="438" cy="341" r="2" fill="#38bdf8" />
+                  </g>
+                  <!-- Celestial Eye Specular Reflections -->
+                  <circle cx="434" cy="337" r="2.8" fill="#ffffff" filter="drop-shadow(0 0 2px #fff)" />
+                  <circle cx="442" cy="343" r="1.5" fill="#ffffff" />
+                </g>
+              </g>
+
+              <!-- Upper Eyelid & Anime Lashes -->
+              <path d="M409,341 Q440,326 467,340" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
+              <path d="M409,339 Q440,324 466,338" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" />
+              <path d="M415,344 Q438,355 456,348" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-linecap="round" />
+              <!-- Eye Crease -->
+              <path d="M416,333 Q438,323 460,332" fill="none" stroke="#caa08c" stroke-width="1.4" />
+            </g>
+
+            <!-- White Eyebrows -->
+            <path d="M330,322 Q358,312 384,324" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" filter="drop-shadow(0 1px 2px rgba(0,0,0,0.25))" />
+            <path d="M416,324 Q442,312 470,322" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" filter="drop-shadow(0 1px 2px rgba(0,0,0,0.25))" />
+          </g>
+
+          <!-- 5. ICONIC BLINDFOLD (Interactive Toggleable Overlay) -->
+          <g id="blindfold-group" class="blindfold-hidden">
+            <!-- Main Wrap Cloth -->
+            <path d="M298,325 Q400,305 502,325 L506,370 Q400,390 294,370 Z" fill="url(#grad-blindfold)" stroke="#222735" stroke-width="2" filter="drop-shadow(0 8px 12px rgba(0,0,0,0.7))" />
+            <!-- Fabric folds and highlights -->
+            <path d="M302,342 Q400,328 498,342" fill="none" stroke="#33394a" stroke-width="2" />
+            <path d="M300,358 Q400,344 500,358" fill="none" stroke="#161820" stroke-width="2" />
+            <path d="M330,332 Q370,348 420,332" fill="none" stroke="#3d4458" stroke-width="1.5" opacity="0.6" />
+            <!-- Side knot ribbon wrap edges -->
+            <path d="M296,335 L285,348 L297,362 Z" fill="#12141a" />
+            <path d="M504,335 L515,348 L503,362 Z" fill="#12141a" />
+          </g>
+
+          <!-- 6. FOREHEAD BANGS & FRONT HAIR TUFTS (Spiky, dynamic white hair) -->
+          <g id="hair-front" class="hair-front-strand">
+            <!-- Left Front Bangs -->
+            <path d="M310,230 Q275,270 270,310 Q295,290 315,265 Z" fill="url(#grad-hair-shadow)" />
+            <path d="M330,190 Q300,250 285,310 Q320,270 338,240 Z" fill="url(#grad-hair-base)" />
+            <path d="M360,180 Q325,240 310,295 Q340,255 365,225 Z" fill="#ffffff" />
+            
+            <!-- Center Swept Bangs (Floating over brow) -->
+            <path d="M375,170 Q350,250 342,305 Q370,260 385,220 Z" fill="url(#grad-hair-highlight)" />
+            <path d="M390,165 Q385,240 380,285 Q405,250 410,210 Z" fill="#ffffff" />
+            <path d="M410,165 Q420,240 428,290 Q432,245 425,200 Z" fill="url(#grad-hair-base)" />
+            <path d="M425,170 Q445,245 460,300 Q455,250 445,210 Z" fill="url(#grad-hair-highlight)" />
+
+            <!-- Right Front Bangs -->
+            <path d="M450,185 Q475,245 500,295 Q485,255 470,225 Z" fill="url(#grad-hair-base)" />
+            <path d="M470,210 Q505,260 525,305 Q510,270 490,240 Z" fill="url(#grad-hair-shadow)" />
+
+            <!-- Wispy stray hairs for high-fidelity anime finish -->
+            <path d="M345,195 Q325,140 315,110 Q338,155 352,190 Z" fill="#ffffff" />
+            <path d="M420,185 Q445,130 460,95 Q448,150 430,185 Z" fill="#ffffff" />
+            <path d="M378,160 Q382,100 375,60 Q392,110 392,158 Z" fill="#ffffff" />
+          </g>
+
+          <!-- 7. HAND MUDRA: DOMAIN EXPANSION SEAL (領域展開・無量空処) -->
+          <!-- Crossed middle & index fingers mudra held near chest -->
+          <g id="hand-domain-seal" class="hand-mudra">
+            <!-- Wrist sleeve -->
+            <path d="M370,680 L350,600 L450,600 L430,680 Z" fill="url(#grad-jacket-base)" stroke="#22263d" stroke-width="2" />
+            <path d="M350,600 Q400,612 450,600" fill="none" stroke="#333956" stroke-width="3" />
+            
+            <!-- Palm & Fingers -->
+            <!-- Palm Base -->
+            <path d="M362,595 Q360,545 378,520 Q400,510 422,520 Q440,545 438,595 Z" fill="url(#grad-skin)" stroke="#baa08d" stroke-width="1.2" />
+
+            <!-- Folded Ring & Pinky Fingers -->
+            <path d="M362,548 Q355,532 368,524 Q380,528 376,548 Z" fill="url(#grad-skin-shadow)" stroke="#ab8e7b" stroke-width="1.2" />
+            <path d="M438,548 Q445,532 432,524 Q420,528 424,548 Z" fill="url(#grad-skin-shadow)" stroke="#ab8e7b" stroke-width="1.2" />
+
+            <!-- Thumb -->
+            <path d="M362,570 Q350,555 365,540 Q380,548 375,568 Z" fill="url(#grad-skin)" stroke="#ab8e7b" stroke-width="1.2" />
+
+            <!-- Iconic Intertwined/Crossed Fingers: Middle finger wrapped over Index finger -->
+            <!-- Index Finger (Behind) -->
+            <path d="M388,525 L392,450 Q398,440 404,450 L406,520 Z" fill="url(#grad-skin)" stroke="#ab8e7b" stroke-width="1.2" />
+            <!-- Middle Finger (Crossed in front) -->
+            <path d="M412,525 L406,448 Q400,438 394,448 L390,480 Q394,500 402,525 Z" fill="url(#grad-skin)" stroke="#9a7a67" stroke-width="1.4" />
+            
+            <!-- Fingernails & Knuckle lines -->
+            <path d="M393,446 Q398,443 403,446" fill="none" stroke="#f1d6c5" stroke-width="1.5" />
+            <path d="M394,482 Q398,480 403,482" fill="none" stroke="#caa28e" stroke-width="1" />
+            
+            <!-- Cursed Energy Condensation between fingertips -->
+            <circle cx="399" cy="442" r="8" fill="#38bdf8" opacity="0.6" filter="url(#glow-cyan)" />
+            <circle cx="399" cy="442" r="3" fill="#ffffff" />
+          </g>
+        </g>
+
+        <!-- SPECIAL TECHNIQUE OVERLAYS: HOLLOW PURPLE (虚式「茈」) -->
+        <g id="hollow-purple-group" opacity="0" style="transition: opacity 0.5s ease; pointer-events: none;">
+          <!-- Red: Cursed Technique Reversal (反転術式「赫」) -->
+          <g class="red-reversal-orb">
+            <circle cx="640" cy="430" r="28" fill="url(#grad-red-reversal)" filter="drop-shadow(0 0 18px #ef4444)" />
+            <circle cx="640" cy="430" r="10" fill="#ffffff" />
+          </g>
+
+          <!-- Blue: Cursed Technique Lapse (術式順転「蒼」) -->
+          <g class="blue-laplace-orb">
+            <circle cx="640" cy="430" r="28" fill="url(#grad-blue-lapse)" filter="drop-shadow(0 0 18px #3b82f6)" />
+            <circle cx="640" cy="430" r="10" fill="#ffffff" />
+          </g>
+
+          <!-- Converged Hollow Purple Singularity Core -->
+          <g class="purple-core-node">
+            <!-- Spatial rupture distortion aura -->
+            <circle cx="640" cy="430" r="80" fill="url(#grad-hollow-purple)" filter="url(#glow-purple-strong)" opacity="0.85" />
+            <circle cx="640" cy="430" r="50" fill="url(#grad-hollow-purple)" />
+            <circle cx="640" cy="430" r="22" fill="#ffffff" filter="drop-shadow(0 0 10px #ffffff)" />
+
+            <!-- Electric Lightning Arcs -->
+            <path d="M600,410 L620,425 L610,440 L640,430 L660,450 L680,420" stroke="#f0abfc" stroke-width="2.5" fill="none" opacity="0.9" />
+            <path d="M630,380 L635,410 L645,405 L640,430 L655,425 L650,470" stroke="#e879f9" stroke-width="2" fill="none" opacity="0.8" />
+            <path d="M590,440 L625,432 L640,430 L650,420 L690,445" stroke="#ffffff" stroke-width="1.8" fill="none" opacity="0.95" />
+          </g>
+        </g>
+
+        <!-- INFINITE VOID GLITCH & IMPACT SHOCKWAVE -->
+        <g id="shockwave-burst" opacity="0" pointer-events="none">
+          <circle id="shockwave-circle" cx="400" cy="420" r="10" fill="none" stroke="#38bdf8" stroke-width="15" opacity="0.9" />
+        </g>
+      </svg>
+    </div>
+  </main>
+
+  <!-- Interactive Technique Control Dock -->
+  <nav class="controls-dock" aria-label="Technique Controls">
+    <button class="btn-action active" id="btnSixEyes" data-tech="sixeyes">
+      <span class="kanji">六眼</span> Six Eyes
+    </button>
+    <button class="btn-action void-btn" id="btnDomain" data-tech="domain">
+      <span class="kanji">領域展開</span> Infinite Void
+    </button>
+    <button class="btn-action purple-btn" id="btnPurple" data-tech="purple">
+      <span class="kanji">虚式「茈」</span> Hollow Purple
+    </button>
+    <button class="btn-action" id="btnBlindfold" data-tech="blindfold">
+      <span class="kanji">目隠し</span> Blindfold
+    </button>
+    <button class="btn-action" id="btnInfinity" data-tech="infinity">
+      <span class="kanji">無下限</span> Infinity Barrier
+    </button>
+    
+    <div style="width: 1px; height: 26px; background: rgba(255,255,255,0.15); margin: 0 4px;"></div>
+    
+    <button class="btn-sound" id="btnSound" title="Toggle Cursed Sound FX" aria-label="Sound Toggle">
+      🔊
+    </button>
+  </nav>
+
+  <script>
+    /* ==========================================================================
+       SYNTHESIZED WEB AUDIO API - JUJUTSU SOUND ENGINE (No external audio files)
+       ========================================================================== */
+    class JujutsuSoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.isMuted = false;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      toggleMute() {
+        this.isMuted = !this.isMuted;
+        return !this.isMuted;
+      }
+
+      // Six Eyes Celestial Glisten
+      playSixEyes() {
+        if (this.isMuted) return;
+        this.init();
+        const now = this.ctx.currentTime;
+        const freqs = [587.33, 880, 1174.66, 1760, 2349.32]; // D5, A5, D6, A6, D7
+        freqs.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+          gain.gain.setValueAtTime(0.08, now + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.06 + 1.2);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now + idx * 0.06);
+          osc.stop(now + idx * 0.06 + 1.3);
+        });
+      }
+
+      // Domain Expansion: Infinite Void - Sub-bass drone & celestial warp sweep
+      playDomainExpansion() {
+        if (this.isMuted) return;
+        this.init();
+        const now = this.ctx.currentTime;
+
+        // Sub bass impact
+        const subOsc = this.ctx.createOscillator();
+        const subGain = this.ctx.createGain();
+        subOsc.type = 'sine';
+        subOsc.frequency.setValueAtTime(140, now);
+        subOsc.frequency.exponentialRampToValueAtTime(32, now + 1.2);
+        subGain.gain.setValueAtTime(0.4, now);
+        subGain.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+        subOsc.connect(subGain);
+        subGain.connect(this.ctx.destination);
+        subOsc.start(now);
+        subOsc.stop(now + 2.6);
+
+        // Cosmic resonant sweep
+        const sweepOsc = this.ctx.createOscillator();
+        const sweepGain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+        sweepOsc.type = 'sawtooth';
+        sweepOsc.frequency.setValueAtTime(220, now);
+        sweepOsc.frequency.exponentialRampToValueAtTime(880, now + 1.8);
+
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(400, now);
+        filter.frequency.exponentialRampToValueAtTime(2400, now + 1.8);
+        filter.Q.value = 6;
+
+        sweepGain.gain.setValueAtTime(0.12, now);
+        sweepGain.gain.exponentialRampToValueAtTime(0.0001, now + 2.4);
+
+        sweepOsc.connect(filter);
+        filter.connect(sweepGain);
+        sweepGain.connect(this.ctx.destination);
+        sweepOsc.start(now);
+        sweepOsc.stop(now + 2.5);
+      }
+
+      // Hollow Purple: Red & Blue collision + high energy shockwave
+      playHollowPurple() {
+        if (this.isMuted) return;
+        this.init();
+        const now = this.ctx.currentTime;
+
+        // Dual charging tones
+        [320, 480].forEach((freq, i) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = i === 0 ? 'triangle' : 'sawtooth';
+          osc.frequency.setValueAtTime(freq, now);
+          osc.frequency.exponentialRampToValueAtTime(freq * 2.8, now + 0.8);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 1.0);
+        });
+
+        // Singularity detonating blast
+        setTimeout(() => {
+          if (this.isMuted || !this.ctx) return;
+          const t = this.ctx.currentTime;
+          const boom = this.ctx.createOscillator();
+          const boomGain = this.ctx.createGain();
+          boom.type = 'sine';
+          boom.frequency.setValueAtTime(180, t);
+          boom.frequency.exponentialRampToValueAtTime(25, t + 1.4);
+          boomGain.gain.setValueAtTime(0.5, t);
+          boomGain.gain.exponentialRampToValueAtTime(0.0001, t + 2.0);
+          boom.connect(boomGain);
+          boomGain.connect(this.ctx.destination);
+          boom.start(t);
+          boom.stop(t + 2.1);
+        }, 750);
+      }
+
+      // Infinity Barrier Space Ripple Deflection
+      playInfinityWarp() {
+        if (this.isMuted) return;
+        this.init();
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(750, now);
+        osc.frequency.exponentialRampToValueAtTime(180, now + 0.5);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.6);
+      }
+
+      // Blindfold Slide Fabric Swish
+      playFabricSwish() {
+        if (this.isMuted) return;
+        this.init();
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(240, now);
+        osc.frequency.exponentialRampToValueAtTime(110, now + 0.35);
+        filter.type = 'lowpass';
+        filter.frequency.value = 600;
+        gain.gain.setValueAtTime(0.1, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.45);
+      }
+    }
+
+    const sound = new JujutsuSoundEngine();
+
+    /* ==========================================================================
+       BACKGROUND CURSED ENERGY & COSMIC STARS CANVAS PARTICLE SYSTEM
+       ========================================================================== */
+    const canvas = document.getElementById('cosmic-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const PARTICLE_COUNT = 90;
+
+    class CosmicParticle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = Math.random() * 2.4 + 0.6;
+        this.speedX = (Math.random() - 0.5) * 0.6;
+        this.speedY = -Math.random() * 1.2 - 0.3;
+        this.alpha = Math.random() * 0.7 + 0.2;
+        this.hue = Math.random() > 0.4 ? 195 : (Math.random() > 0.5 ? 275 : 0); // cyan, purple, or spark white
+      }
+
+      update(intensityFactor = 1) {
+        this.x += this.speedX * intensityFactor;
+        this.y += this.speedY * intensityFactor;
+        if (this.y < -10 || this.x < -10 || this.x > width + 10) {
+          this.reset();
+          this.y = height + 10;
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        if (this.hue === 0) {
+          ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+          ctx.shadowColor = '#ffffff';
+        } else if (this.hue === 195) {
+          ctx.fillStyle = `rgba(0, 242, 254, ${this.alpha})`;
+          ctx.shadowColor = '#00f2fe';
+        } else {
+          ctx.fillStyle = `rgba(192, 132, 252, ${this.alpha})`;
+          ctx.shadowColor = '#c084fc';
+        }
+        ctx.shadowBlur = 10;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push(new CosmicParticle());
+    }
+
+    let globalEnergyMultiplier = 1;
+
+    function renderCanvas() {
+      ctx.clearRect(0, 0, width, height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update(globalEnergyMultiplier);
+        particles[i].draw();
+      }
+      requestAnimationFrame(renderCanvas);
+    }
+    renderCanvas();
+
+    /* ==========================================================================
+       INTERACTIVE CHARACTER LOGIC & STATE MACHINE
+       ========================================================================== */
+    const svgWrapper = document.getElementById('svgWrapper');
+    const blindfoldGroup = document.getElementById('blindfold-group');
+    const sixEyesGroup = document.getElementById('six-eyes-group');
+    const hollowPurpleGroup = document.getElementById('hollow-purple-group');
+    const handDomainSeal = document.getElementById('hand-domain-seal');
+    const domainBackground = document.getElementById('domain-background-group');
+    const stateBadge = document.getElementById('stateBadge');
+    const stateDesc = document.getElementById('stateDesc');
+    const cursorHint = document.getElementById('cursorHint');
+    const shockwaveBurst = document.getElementById('shockwave-burst');
+    const shockwaveCircle = document.getElementById('shockwave-circle');
+
+    const leftIris = document.getElementById('left-iris');
+    const rightIris = document.getElementById('right-iris');
+
+    // UI Buttons
+    const buttons = {
+      sixeyes: document.getElementById('btnSixEyes'),
+      domain: document.getElementById('btnDomain'),
+      purple: document.getElementById('btnPurple'),
+      blindfold: document.getElementById('btnBlindfold'),
+      infinity: document.getElementById('btnInfinity')
+    };
+    const btnSound = document.getElementById('btnSound');
+
+    let currentMode = 'sixeyes'; // 'sixeyes' | 'domain' | 'purple' | 'blindfold' | 'infinity'
+
+    function triggerShockwave(cx = 400, cy = 420, strokeColor = '#38bdf8') {
+      shockwaveCircle.setAttribute('cx', cx);
+      shockwaveCircle.setAttribute('cy', cy);
+      shockwaveCircle.setAttribute('stroke', strokeColor);
+      shockwaveBurst.style.opacity = '1';
+      let radius = 10;
+      let opacity = 0.9;
+      let strokeWidth = 14;
+
+      function step() {
+        radius += 18;
+        opacity -= 0.038;
+        strokeWidth = Math.max(1, strokeWidth - 0.4);
+        shockwaveCircle.setAttribute('r', radius);
+        shockwaveCircle.setAttribute('opacity', Math.max(0, opacity));
+        shockwaveCircle.setAttribute('stroke-width', strokeWidth);
+
+        if (opacity > 0) {
+          requestAnimationFrame(step);
+        } else {
+          shockwaveBurst.style.opacity = '0';
+        }
+      }
+      step();
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      Object.values(buttons).forEach(btn => btn.classList.remove('active'));
+      if (buttons[mode]) buttons[mode].classList.add('active');
+
+      // Reset standard overlays
+      blindfoldGroup.className.baseVal = 'blindfold-hidden';
+      sixEyesGroup.style.opacity = '1';
+      hollowPurpleGroup.style.opacity = '0';
+      svgWrapper.style.filter = 'drop-shadow(0 0 45px rgba(0, 210, 255, 0.18))';
+      globalEnergyMultiplier = 1;
+
+      switch (mode) {
+        case 'sixeyes':
+          stateBadge.textContent = '六眼・無下限';
+          stateBadge.style.color = '#38bdf8';
+          stateDesc.textContent = 'THE SIX EYES • LIMITLESS ACTIVE';
+          sound.playSixEyes();
+          triggerShockwave(400, 342, '#00f2fe');
+          break;
+
+        case 'domain':
+          stateBadge.textContent = '領域展開「無量空処」';
+          stateBadge.style.color = '#7dd3fc';
+          stateDesc.textContent = 'DOMAIN EXPANSION: INFINITE VOID';
+          globalEnergyMultiplier = 2.4;
+          svgWrapper.style.filter = 'drop-shadow(0 0 65px rgba(0, 210, 255, 0.45)) drop-shadow(0 0 120px rgba(129, 140, 248, 0.3))';
+          sound.playDomainExpansion();
+          triggerShockwave(400, 420, '#38bdf8');
+          break;
+
+        case 'purple':
+          stateBadge.textContent = '虚式「茈」';
+          stateBadge.style.color = '#c084fc';
+          stateDesc.textContent = 'SECRET TECHNIQUE: HOLLOW PURPLE';
+          hollowPurpleGroup.style.opacity = '1';
+          globalEnergyMultiplier = 3.2;
+          svgWrapper.style.filter = 'drop-shadow(0 0 75px rgba(192, 132, 252, 0.6)) drop-shadow(0 0 130px rgba(147, 51, 234, 0.4))';
+          sound.playHollowPurple();
+          triggerShockwave(640, 430, '#c084fc');
+          break;
+
+        case 'blindfold':
+          stateBadge.textContent = '呪術高専・目隠し';
+          stateBadge.style.color = '#94a3b8';
+          stateDesc.textContent = 'JUJUTSU HIGH • CONCEALED BLINDFOLD';
+          blindfoldGroup.className.baseVal = ''; // show blindfold
+          sixEyesGroup.style.opacity = '0.15';
+          sound.playFabricSwish();
+          triggerShockwave(400, 350, '#94a3b8');
+          break;
+
+        case 'infinity':
+          stateBadge.textContent = '絶対不可侵・無下限呪術';
+          stateBadge.style.color = '#67e8f9';
+          stateDesc.textContent = 'INFINITY: SPATIAL DIVERGENCE ACTIVE';
+          svgWrapper.style.filter = 'drop-shadow(0 0 55px rgba(103, 232, 249, 0.4))';
+          sound.playInfinityWarp();
+          triggerShockwave(400, 420, '#00f2fe');
+          break;
+      }
+    }
+
+    // Attach button click events
+    Object.keys(buttons).forEach(key => {
+      buttons[key].addEventListener('click', (e) => {
+        e.stopPropagation();
+        setMode(key);
+      });
+    });
+
+    // Sound toggle
+    btnSound.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const active = sound.toggleMute();
+      btnSound.textContent = active ? '🔊' : '🔇';
+      btnSound.style.borderColor = active ? 'rgba(56, 189, 248, 0.6)' : 'rgba(239, 68, 68, 0.6)';
+    });
+
+    /* ==========================================================================
+       DYNAMIC MOUSE TRACKING & PARALLAX EFFECT
+       ========================================================================== */
+    const container = document.getElementById('sceneContainer');
+
+    window.addEventListener('mousemove', (e) => {
+      const rect = container.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      const normX = (e.clientX - centerX) / (rect.width / 2); // -1 to 1
+      const normY = (e.clientY - centerY) / (rect.height / 2); // -1 to 1
+
+      // Subtle 3D tilt of character portrait
+      const tiltX = -normY * 6;
+      const tiltY = normX * 8;
+      svgWrapper.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+
+      // Subtle parallax eye pupil tracking
+      const eyeOffsetX = Math.max(-5, Math.min(5, normX * 4.5));
+      const eyeOffsetY = Math.max(-4, Math.min(4, normY * 3.5));
+      leftIris.setAttribute('transform', `translate(${eyeOffsetX}, ${eyeOffsetY})`);
+      rightIris.setAttribute('transform', `translate(${eyeOffsetX}, ${eyeOffsetY})`);
+
+      // Hand subtle counter-balance
+      handDomainSeal.style.transform = `translate(${-eyeOffsetX * 1.5}px, ${-eyeOffsetY * 1.5}px)`;
+    });
+
+    // Reset tilt on mouseleave
+    window.addEventListener('mouseleave', () => {
+      svgWrapper.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+      leftIris.setAttribute('transform', 'translate(0, 0)');
+      rightIris.setAttribute('transform', 'translate(0, 0)');
+      handDomainSeal.style.transform = 'translate(0px, 0px)';
+    });
+
+    // Click anywhere on scene to trigger Cursed Energy Discharge
+    container.addEventListener('click', (e) => {
+      sound.init();
+      const rect = svgWrapper.getBoundingClientRect();
+      const clickSvgX = ((e.clientX - rect.left) / rect.width) * 800;
+      const clickSvgY = ((e.clientY - rect.top) / rect.height) * 800;
+
+      if (currentMode === 'purple') {
+        sound.playHollowPurple();
+        triggerShockwave(clickSvgX, clickSvgY, '#c084fc');
+      } else {
+        sound.playInfinityWarp();
+        triggerShockwave(clickSvgX, clickSvgY, '#00f2fe');
+      }
+
+      // Spawn burst particles towards click location
+      for (let i = 0; i < 15; i++) {
+        const p = new CosmicParticle();
+        p.x = e.clientX;
+        p.y = e.clientY;
+        p.speedX = (Math.random() - 0.5) * 8;
+        p.speedY = (Math.random() - 0.5) * 8;
+        p.size = Math.random() * 4 + 2;
+        p.alpha = 1;
+        p.hue = currentMode === 'purple' ? 275 : 195;
+        particles.push(p);
+      }
+    });
+
+    // Hide hint after 6 seconds
+    setTimeout(() => {
+      cursorHint.style.opacity = '0';
+    }, 6000);
+  </script>
+</body>
+</html>
