@@ -1,0 +1,859 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/038-ice-coffee.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Rust Fisher">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Generating a 3D rainy night convenience store webpage with AI. A side-by-side comparison of Three.js implementations by GPT-6.1 sol, Gemini 3.8 Flash, and DeepSeek V4.1-Flash-1017.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI Generates a 3D Rainy Night Convenience Store | GPT-6.1 sol, Gemini 3.8 Flash, and DeepSeek V4.1-Flash-1017">
+<meta property="og:url" content="https://en.rustfisher.com/ai/rainy-store-gpt6-1sol-gemini3-8flash/index.html">
+<meta property="og:site_name" content="RustFisher Notes">
+<meta property="og:description" content="Generating a 3D rainy night convenience store webpage with AI. A side-by-side comparison of Three.js implementations by GPT-6.1 sol, Gemini 3.8 Flash, and DeepSeek V4.1-Flash-1017.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://en.rustfisher.com/ai/rainy-store-gpt6-1sol-gemini3-8flash/rainy-store-gpt-6-1.png">
+<meta property="article:published_time" content="2026-11-12T04:01:00.000Z">
+<meta property="article:modified_time" content="2026-11-12T06:13:41.546Z">
+<meta property="article:author" content="Rust Fisher">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Gemini">
+<meta property="article:tag" content="DeepSeek">
+<meta property="article:tag" content="GPT">
+<meta property="article:tag" content="Three.js">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://en.rustfisher.com/ai/rainy-store-gpt6-1sol-gemini3-8flash/rainy-store-gpt-6-1.png">
+  
+  
+  
+  <title>AI Generates a 3D Rainy Night Convenience Store | GPT-6.1 sol, Gemini 3.8 Flash, and DeepSeek V4.1-Flash-1017 - RustFisher Notes</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"en.rustfisher.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":"27f6c725fe6b0b874169d9fb51b13af7","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"N23CAaqvEPxtglxLbc4o0REb-MdYXbMMI","app_key":"vx6LVMyCsch2GR8CczKPMc5A","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  <style>ins.adsbygoogle[data-ad-status="unfilled"] { display: none !important; }</style>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "yxzbi5hm4o");
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-75DW9T0QB0"></script><script>   window.dataLayer = window.dataLayer || [];  function gtag(){dataLayer.push(arguments);}  gtag('js', new Date());   gtag('config', 'G-75DW9T0QB0');</script>
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="RustFisher Notes" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>RustFisher Notes</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>Links</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="AI Generates a 3D Rainy Night Convenience Store | GPT-6.1 sol, Gemini 3.8 Flash, and DeepSeek V4.1-Flash-1017"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-11-12 12:01" pubdate>
+          November 12, 2026 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          503 words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          5 mins
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+<aside class="sidebar d-none d-xl-block" style="margin-right:-1rem;z-index:-1"><ins class="adsbygoogle" style="display:flex;justify-content:center;min-width:160px;max-width:300px;width:100%;height:600px;position:sticky;top:2rem" data-ad-client="ca-pub-7286632197002340" data-ad-slot="8064535079"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></aside>
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">AI Generates a 3D Rainy Night Convenience Store | GPT-6.1 sol, Gemini 3.8 Flash, and DeepSeek V4.1-Flash-1017</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    Last updated on November 12, 2026 pm
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="Test-Background-and-Prompt"><a href="#Test-Background-and-Prompt" class="headerlink" title="Test Background and Prompt"></a>Test Background and Prompt</h2><p>Using the exact same prompt, I tasked three different AI models with generating an interactive 3D HTML page featuring a Japanese convenience store on a rainy night.</p>
+<p>Prompt (translated from original Chinese):</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">Please create a miniature 3D scene of a rainy night street corner with a convenience store, viewed from a third-person perspective. The whole scene should look like an interactive miniature diorama / small landscape that can be freely dragged, rotated, and zoomed, without any extra UI elements. <br><br>The ground must be a complete square base, and all elements should be built on top of this base. The composition should be compact and clearly layered, presenting a delicate, collectible model-like feel. The visual style should be cel-shaded (three-to-two / toon shading), highlighting a rich Japanese anime aesthetic with clean materials, defined silhouettes, and soft colors enriched by neon night lighting layers.<br><br>The centerpiece of the scene is a Japanese convenience store located at the visual center of the base. The exterior should include typical Japanese street-corner elements: convenience store signage, glass display windows, automatic sliding doors, an entrance awning/canopy, an entrance doormat, vending machines, bicycles, an umbrella stand, trash cans, street lamps, utility poles, hanging power wires, road signs, street corner guardrails, parking spots, drainage gutters, puddle-covered asphalt, reflective crosswalks, an alley entrance, outdoor AC units, and small bulletin/poster boards. The street does not need to be huge, but it should have a clear street corner turn, resembling a quiet neighborhood corner seen in Japanese anime.<br><br>Once the model is loaded, include an assembly entrance animation: elements gradually build up from the ground, stacking pieces together into a complete scene. Do not include human characters, but the store interior must be well-furnished and clearly visible through large glass windows. The interior should feature typical convenience store fixtures, looking bright, warm, realistic, and lively.<br></code></pre></td></tr></table></figure>
+
+<p>Here are the live interactive demo links generated by GPT-6.1 sol, Gemini 3.8 Flash, and DeepSeek V4.1-Flash-1017:</p>
+<ul>
+<li><a href="https://en.rustfisher.com/aiwebdemos/store202611/gpt6-1-sol/">Rainy Night Convenience Store | GPT-6.1 sol Demo</a></li>
+<li><a href="https://en.rustfisher.com/aiwebdemos/store202611/gemini3-8-flash-low/">Rainy Night Convenience Store | Gemini 3.8 Flash Demo</a></li>
+<li><a href="https://en.rustfisher.com/aiwebdemos/store202611/deepseek4-1flash1017/index.html">Rainy Night Convenience Store | DeepSeek V4.1-Flash-1017 Demo</a></li>
+</ul>
+<h2 id="Test-Setup-Tools"><a href="#Test-Setup-Tools" class="headerlink" title="Test Setup &amp; Tools"></a>Test Setup &amp; Tools</h2><ul>
+<li>VSCode Codex — GPT-6.1 sol (Low)</li>
+<li>VSCode Antigravity — Gemini 3.8 Flash (Low)</li>
+<li>TRAE CN — DeepSeek V4.1-Flash-1017</li>
+</ul>
+<h2 id="Model-Results-Detailed-Evaluation"><a href="#Model-Results-Detailed-Evaluation" class="headerlink" title="Model Results &amp; Detailed Evaluation"></a>Model Results &amp; Detailed Evaluation</h2><h3 id="GPT-6-1-sol-Results"><a href="#GPT-6-1-sol-Results" class="headerlink" title="GPT-6.1 sol Results"></a>GPT-6.1 sol Results</h3><iframe src="https://en.rustfisher.com/aiwebdemos/store202611/gpt6-1-sol/" width="100%" height="500px" frameborder="0" allowfullscreen loading="lazy"></iframe>
+
+<p><a href="https://en.rustfisher.com/aiwebdemos/store202611/gpt6-1-sol/">Rainy Night Convenience Store | GPT-6.1 sol Demo</a></p>
+<ol>
+<li><strong>3D Tech Stack &amp; Completeness</strong><br>Bundled with Three.js and OrbitControls, featuring smooth rotation, zooming, panning, damping, and touch support. The code is complete and functional. Note: It is packaged as an HTML file referencing an external JS file rather than a strictly self-contained single HTML file.</li>
+<li><strong>Assembly Entrance Animation</strong><br>Features staggered <code>position.y</code> elevation and <code>scale</code> enlargement with cubic ease-out curves. The sequence builds up the base, walls, interior fixtures, glass panels, roof, and street props over approximately 3.7 seconds. The minor drawback is that elements enter primarily in coarse groups rather than true piece-by-piece assembly, and street fixtures arrive before the main building has fully settled into position.</li>
+<li><strong>Toon Shading &amp; Rainy Night Atmosphere</strong><br>Includes 1,500 rain streaks, puddle patches, expanding ripples, and a balanced cool&#x2F;warm color palette. However, the meshes rely on standard <code>MeshStandardMaterial</code> rather than genuine toon shading materials (<code>MeshToonMaterial</code>), and there are no outline passes. Ground roughness is uniformly set to 0.66; wet reflections are simulated with semi-transparent tinted planes rather than dynamic scene&#x2F;light reflection.</li>
+<li><strong>Interior Visibility &amp; Lighting Contrast</strong><br>The glass uses <code>transparent: true</code>, <code>opacity: 0.1</code>, and <code>depthWrite: false</code>, providing clear see-through visibility. The interior is illuminated by warm-toned point lights, illuminating shelves, rear drink coolers, the checkout counter, and food displays, contrasting well against the cooler outdoor ambient light. A solid implementation, though the roof and awning can obstruct interior views from steep overhead angles.</li>
+<li><strong>Detail Density &amp; Base Constraints</strong><br>The diorama sits on a 12×12 base and includes vending machines, bicycles, umbrella racks, garbage bins, guardrails, utility poles, wires, parking lines, gutters, and an AC unit. However, some elements violate boundary bounds—the right parking lot line extends out to <code>x=7</code> when the boundary ends at <code>x=6</code>. Additionally, bulletin boards and goods on shelves are mostly basic geometric boxes.</li>
+</ol>
+<hr>
+<h3 id="Gemini-3-8-Flash-Results"><a href="#Gemini-3-8-Flash-Results" class="headerlink" title="Gemini 3.8 Flash Results"></a>Gemini 3.8 Flash Results</h3><iframe src="https://en.rustfisher.com/aiwebdemos/store202611/gemini3-8-flash-low/" width="100%" height="500px" frameborder="0" allowfullscreen loading="lazy"></iframe>
+
+<p><a href="https://en.rustfisher.com/aiwebdemos/store202611/gemini3-8-flash-low/">Rainy Night Convenience Store | Gemini 3.8 Flash Demo</a></p>
+<ol>
+<li><strong>3D Tech Stack &amp; Completeness</strong><br>Uses a local <code>bundle.js</code> bundling Three.js, OrbitControls, and TWEEN without requiring third-party CDN calls. Full rotation, zoom, damping, and angle clamps are properly configured. Like the GPT output, it relies on HTML + external JS rather than a standalone single HTML file.</li>
+<li><strong>Assembly Entrance Animation</strong><br>Animates elements dropping into place along <code>position.y</code> while scaling up from <code>0.001</code> using <code>Back.Out</code> bounce easing. All objects correctly reach their destination poses. However, the animation operates across only four large groups: ground, entire store, street props, and infrastructure. Walls, shelves, and roofing do not assemble incrementally, falling short of a true piece-by-piece assembly feel.</li>
+<li><strong>Toon Shading &amp; Rainy Night Atmosphere</strong><br>Properly adopts <code>MeshToonMaterial</code> paired with a four-tone gradient map and nearest-neighbor sampling. Road roughness is dialed to 0.18 and puddles to 0.05, accompanied by 1,800 rain streaks and 18 dynamic animated ripples. The shortcomings: an outline shader function is defined in code but never actually invoked; and without environment maps or planar reflections, low roughness only yields specular highlights from lights rather than reflections of the store itself.</li>
+<li><strong>Interior Visibility &amp; Lighting Contrast</strong><br>Both front and side walls feature glass panels with <code>transparent: true</code>, <code>opacity: 0.32</code>, <code>transmission: 0.85</code>, and disabled depth writes. The interior is rich in furnishings, including double-sided grocery gondolas, beverage refrigerators, cash registers, an oden warmer, a coffee machine, cigarette displays, and a magazine rack. However, interior point light intensities are low (2.2 and 1.2), which—given Three.js physically correct light decay—leaves the interior dimmer than ideal; emissive ceiling panels do not cast actual light onto the shelves.</li>
+<li><strong>Detail Density &amp; Base Constraints</strong><br>The base measures approximately 20.4×20.4. It includes dual vending machines, bicycles, umbrella stands, trash cans, air conditioners, plastic crates, transformers, electric meters, sagging utility wires, guardrails, and traffic curved mirrors. Major structures stay well within the base boundaries. On the downside, merchandise primarily relies on flat textures, bicycle geometry is quite simplified, and some equipment placement feels slightly haphazard.</li>
+</ol>
+<hr>
+<h3 id="DeepSeek-V4-1-Flash-1017-Results"><a href="#DeepSeek-V4-1-Flash-1017-Results" class="headerlink" title="DeepSeek V4.1-Flash-1017 Results"></a>DeepSeek V4.1-Flash-1017 Results</h3><iframe src="https://en.rustfisher.com/aiwebdemos/store202611/deepseek4-1flash1017/index.html" width="100%" height="500px" frameborder="0" allowfullscreen loading="lazy"></iframe>
+
+<p><a href="https://en.rustfisher.com/aiwebdemos/store202611/deepseek4-1flash1017/index.html">Rainy Night Convenience Store | DeepSeek V4.1-Flash-1017 Demo</a></p>
+<ol>
+<li><strong>3D Tech Stack &amp; Completeness</strong><br>Employs Three.js r160 and OrbitControls via ES module imports (<code>importmap</code>). Cleanly modularized code with complete render loops, responsive resizing, and camera limits. Note that because of modular imports, it requires a static web server to run locally rather than opening directly as a standalone local file.</li>
+<li><strong>Assembly Entrance Animation</strong><br>Features a dedicated <code>Assembly</code> subsystem animating real <code>position.y</code> translations and scaling effects, including ground <code>rise</code>, aerial <code>drop</code>, and elastic <code>pop</code>. The animation sequences in order: foundation at 0s, followed by asphalt road, store structure, interior, signage, outdoor props, wires, and finally weather&#x2F;rain effects. Some components are still grouped together (e.g., walls and rooftop HVAC units scale up simultaneously), but it is visibly closer to a layered assembly sequence than the others.</li>
+<li><strong>Toon Shading &amp; Rainy Night Atmosphere</strong><br>Faithfully applies <code>MeshToonMaterial</code>, four-tone gradient ramps, and <strong>actively mounted <code>EdgesGeometry</code> silhouette outlines</strong>. Rain rendering includes 1,500 GPU-driven streaks and 34 continuous ripple rings, complemented by cool ambient fog and subtle neon sign breathing animations. The main trade-off: the road surface uses toon material, and puddles&#x2F;reflections are simulated via tinted transparent planes rather than physically wet roughness reflections.</li>
+<li><strong>Interior Visibility &amp; Lighting Contrast</strong><br>Storefront windows use <code>transparent: true</code>, <code>opacity: 0.05</code>, and <code>depthWrite: false</code>. The interior is brightly lit by four warm <code>PointLight</code> nodes and cool refrigerator fill lights. Fully populated with 3D grocery shelves, coolers, and checkout counters. Strong technical setup for warm interior vs. cool exterior contrast.</li>
+<li><strong>Detail Density &amp; Base Constraints</strong><br>The main platform is a generous 26×26 square base. Includes surrounding alley structures, background building silhouettes, street lamps, guardrails, road markings, manhole covers, and air conditioners. Relative scale is well maintained (bicycle is ~1.8 units, storefront is ~11.7 units). The only caveat is that the expanded surrounding environment slightly dilutes the prominence of the central convenience store.</li>
+</ol>
+<hr>
+<h2 id="Side-by-Side-Comparison"><a href="#Side-by-Side-Comparison" class="headerlink" title="Side-by-Side Comparison"></a>Side-by-Side Comparison</h2><table>
+<thead>
+<tr>
+<th align="left">Evaluation Dimension</th>
+<th align="left">GPT-6.1 sol</th>
+<th align="left">Gemini 3.8 Flash Low</th>
+<th align="left">DeepSeek V4.1-Flash-1017</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>1. 3D Stack &amp; Completeness</strong></td>
+<td align="left">Packaged Three.js &amp; OrbitControls; supports orbit, zoom, pan; HTML + external JS asset</td>
+<td align="left">Bundled Three.js, OrbitControls, TWEEN; clean local scripts</td>
+<td align="left">Three.js r160 &amp; OrbitControls loaded via import map; clean modular structure, needs static HTTP server</td>
+</tr>
+<tr>
+<td align="left"><strong>2. Assembly Animation</strong></td>
+<td align="left">Staggered rise and scale across multiple groups; structural staging</td>
+<td align="left">Only 4 high-level groups; entire building drops as a single unit</td>
+<td align="left">Granular registration (base, road, glass, doors, signage, interior, props); supports <code>rise</code>, <code>drop</code>, <code>pop</code>; walls and roof still grouped</td>
+</tr>
+<tr>
+<td align="left"><strong>3. Toon Shading &amp; Atmosphere</strong></td>
+<td align="left">Standard material (<code>MeshStandardMaterial</code>), no outlines; rain streaks, ripples &amp; transparent puddle planes</td>
+<td align="left">Multi-tone <code>MeshToonMaterial</code>, low-roughness puddles; outline function defined but uncalled</td>
+<td align="left">4-tone <code>MeshToonMaterial</code>, <strong>actively attached silhouette lines</strong>; 1,500 GPU rain streaks, 34 ripples, neon pulsing; road uses toon material with decal puddles</td>
+</tr>
+<tr>
+<td align="left"><strong>4. Interior Visibility &amp; Lighting</strong></td>
+<td align="left">Transparent glass, warm point light, decent 3D merchandise</td>
+<td align="left">Transparent glass, dense interior decor; interior point light intensity is somewhat low; goods rely on flat textures</td>
+<td align="left">Glass opacity <code>0.05</code>, 4 warm point lights + cooler fill lights; 3D merchandise via <code>InstancedMesh</code>; densely furnished shelves and counters</td>
+</tr>
+<tr>
+<td align="left"><strong>5. Detail Density &amp; Base Boundary</strong></td>
+<td align="left">12×12 base, rich street props; parking markings extend past boundary</td>
+<td align="left">~20.4×20.4 base, rich props, major objects remain within perimeter</td>
+<td align="left">~26×26 base, includes adjacent alley and background building facades; high depth, though slightly competes with the main store</td>
+</tr>
+</tbody></table>
+<h2 id="Verdict-Ranking"><a href="#Verdict-Ranking" class="headerlink" title="Verdict &amp; Ranking"></a>Verdict &amp; Ranking</h2><p><strong>Overall completeness ranking: DeepSeek &gt; Gemini &gt; GPT</strong></p>
+<ul>
+<li><strong>DeepSeek V4.1-Flash</strong> took the lead thanks to more granular assembly animations, functional cel-shaded outline rendering, and richer scene layering.</li>
+<li><strong>Gemini 3.8 Flash</strong> followed closely with solid cel-shading material configuration, rich interior item modeling, and clean base containment, though held back by coarse animation grouping and uncalled outline code.</li>
+<li><strong>GPT-6.1 sol</strong> produced an attractive and smooth scene, but fell behind on strict cel-shading requirements (used standard PBR material) and boundary clamping.</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/ai/" class="category-chain-item">ai</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AI/" class="print-no-link">#AI</a>
+      
+        <a href="/tags/Gemini/" class="print-no-link">#Gemini</a>
+      
+        <a href="/tags/DeepSeek/" class="print-no-link">#DeepSeek</a>
+      
+        <a href="/tags/GPT/" class="print-no-link">#GPT</a>
+      
+        <a href="/tags/Three-js/" class="print-no-link">#Three.js</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>AI Generates a 3D Rainy Night Convenience Store | GPT-6.1 sol, Gemini 3.8 Flash, and DeepSeek V4.1-Flash-1017</div>
+      <div>https://en.rustfisher.com/ai/rainy-store-gpt6-1sol-gemini3-8flash/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Rust Fisher</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>November 12, 2026</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+<div style="width:100%;display:flex;justify-content:center;margin-bottom:1.5rem"><ins class="adsbygoogle" style="display:flex;justify-content:center;max-width:845px;width:100%;height:90px" data-ad-client="ca-pub-7286632197002340" data-ad-slot="8064535079"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({}); </script></div>
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/web/keep-screen-awake-on-the-web/" title="How to Keep Screens Awake on the Web - Practical Screen Wake Lock API">
+                        <span class="hidden-mobile">How to Keep Screens Awake on the Web - Practical Screen Wake Lock API</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+    <div id="giscus" class="giscus"></div>
+    <script type="text/javascript">
+      Fluid.utils.loadComments('#giscus', function() {
+        var options = {"repo":"RustFisher/rustfisher.github.io","repo-id":"MDEwOlJlcG9zaXRvcnk1ODY0MjEyMg==","category":"Announcements","category-id":"DIC_kwDOA37Oys4CVzAk","theme-light":"light","theme-dark":"dark","mapping":"pathname","reactions-enabled":1,"emit-metadata":0,"input-position":"top","lang":"zh-CN"};
+        var attributes = {};
+        for (let option in options) {
+          if (!option.startsWith('theme-')) {
+            var key = option.startsWith('data-') ? option : 'data-' + option;
+            attributes[key] = options[option];
+          }
+        }
+        var light = 'light';
+        var dark = 'dark';
+        window.GiscusThemeLight = light;
+        window.GiscusThemeDark = dark;
+        attributes['data-theme'] = document.documentElement.getAttribute('data-user-color-scheme') === 'dark' ? dark : light;
+        for (let attribute in attributes) {
+          var value = attributes[attribute];
+          if (value === undefined || value === null || value === '') {
+            delete attributes[attribute];
+          }
+        }
+        var s = document.createElement('script');
+        s.setAttribute('src', 'https://giscus.app/client.js');
+        s.setAttribute('crossorigin', 'anonymous');
+        for (let attribute in attributes) {
+          s.setAttribute(attribute, attributes[attribute]);
+        }
+        var ss = document.getElementsByTagName('script');
+        var e = ss.length > 0 ? ss[ss.length - 1] : document.head || document.documentElement;
+        e.parentNode.insertBefore(s, e.nextSibling);
+      });
+    </script>
+    <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        Views: 
+        <span id="leancloud-site-pv"></span>
+        
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        Visitors: 
+        <span id="leancloud-site-uv"></span>
+        
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7286632197002340" crossorigin="anonymous"></script>
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
