@@ -4,7 +4,7 @@
   <url>
     <loc>https://en.rustfisher.com/ai/rainy-store-gpt6-1sol-gemini3-8flash/</loc>
     
-    <lastmod>2026-11-12</lastmod>
+    <lastmod>2026-11-19</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -110,15 +110,6 @@
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_2.html</loc>
-    
-    <lastmod>2025-08-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_1.html</loc>
     
     <lastmod>2025-08-01</lastmod>
@@ -129,6 +120,15 @@
   
   <url>
     <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_3.html</loc>
+    
+    <lastmod>2025-08-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_2.html</loc>
     
     <lastmod>2025-08-01</lastmod>
     

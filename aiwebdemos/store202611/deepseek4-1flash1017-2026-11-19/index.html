@@ -3,7 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>雨夜便利店街角 · 微缩模型</title>
+  <title>Rainy Store</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-75DW9T0QB0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-75DW9T0QB0');
+  </script>
+
   <style>
     html,
     body {
@@ -48,11 +58,98 @@
     #fade.is-hidden {
       opacity: 0;
     }
+
+    /* 右下角外链按钮：暗色玻璃 + 冷色描边，和夜景配色一致 */
+    .cta-link {
+      position: fixed;
+      right: max(20px, env(safe-area-inset-right));
+      bottom: max(20px, env(safe-area-inset-bottom));
+      z-index: 20;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(79, 227, 255, 0.28);
+      background: rgba(10, 18, 32, 0.72);
+      color: #dff5ff;
+      font: 500 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "Microsoft YaHei", sans-serif;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+      transition: border-color 0.25s ease, background 0.25s ease,
+        box-shadow 0.25s ease, transform 0.25s ease;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: cta-in 0.6s ease 2.4s forwards;
+    }
+
+    .cta-link:hover {
+      border-color: rgba(111, 255, 208, 0.6);
+      background: rgba(14, 28, 46, 0.82);
+      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45),
+        0 0 18px rgba(79, 227, 255, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .cta-link:focus-visible {
+      outline: 2px solid rgba(111, 255, 208, 0.85);
+      outline-offset: 3px;
+    }
+
+    .cta-link .cta-arrow {
+      font-size: 14px;
+      line-height: 1;
+      color: #6fffd0;
+      transition: transform 0.25s ease;
+    }
+
+    .cta-link:hover .cta-arrow {
+      transform: translate(1px, -1px);
+    }
+
+    @keyframes cta-in {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cta-link {
+        right: 14px;
+        bottom: 14px;
+        padding: 10px 14px;
+        font-size: 12px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cta-link {
+        animation: none;
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
   </style>
 </head>
 <body>
   <div id="vignette"></div>
   <div id="fade"></div>
+
+  <a
+    class="cta-link"
+    href="https://en.rustfisher.com/ai/rainy-store-gpt6-1sol-gemini3-8flash/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Blog
+    <span class="cta-arrow" aria-hidden="true">↗</span>
+  </a>
 
   <script type="importmap">
     {
