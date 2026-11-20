@@ -116,6 +116,9 @@ renderer.domElement.addEventListener('pointerup', (event) => {
       link_position: 'store_sign',
     });
   }
+  if (typeof window.clarity === 'function') {
+    window.clarity('event', 'blog_sign_click');
+  }
   window.open(blog.url, '_blank', 'noopener,noreferrer');
 });
 
