@@ -71,9 +71,11 @@ export function buildBuildings(builder) {
     new THREE.MeshBasicMaterial({ map: cafeTexture })
   );
   cafeSign.position.set(6.4, 2.98, R.z2 + 0.03);
+  cafeSign.userData.lightGroup = 'neon';
   right.add(cafeSign);
   const cafeGlow = glowSprite(0xffcf8a, 2.6, 0.2);
   cafeGlow.position.set(6.4, 2.98, R.z2 + 0.4);
+  cafeGlow.userData.lightGroup = 'neon';
   right.add(cafeGlow);
 
   // 二层 / 三层窗
@@ -137,12 +139,15 @@ export function buildBuildings(builder) {
   );
   izaFace.position.set(R.x2 + 0.32, 3.2, -8.9);
   izaFace.rotation.y = Math.PI / 2;
+  izaFace.userData.lightGroup = 'neon';
   right.add(izaFace);
   const izaGlow = glowSprite(0xff6a5a, 3.2, 0.4);
   izaGlow.position.set(R.x2 + 0.5, 3.2, -8.9);
+  izaGlow.userData.lightGroup = 'neon';
   right.add(izaGlow);
   const izaLight = new THREE.PointLight(0xff6f5c, 18, 8, 2);
   izaLight.position.set(R.x2 + 0.9, 3.1, -8.9);
+  izaLight.userData.lightGroup = 'neon';
   right.add(izaLight);
 
   // 屋顶：护栏、水箱、天线
@@ -169,15 +174,18 @@ export function buildBuildings(builder) {
   const lantern = new THREE.Mesh(new THREE.SphereGeometry(0.22, 14, 12), lanternMat);
   lantern.scale.set(1, 1.25, 1);
   lantern.position.set(4.95, 3.1, -1.5);
+  lantern.userData.lightGroup = 'neon';
   right.add(lantern);
   const lanternTop = cyl(0.09, 0.09, 0.06, toon(0x3a2a22), { seg: 8 });
   lanternTop.position.set(4.95, 3.4, -1.5);
   right.add(lanternTop);
   const lanternGlow = glowSprite(0xff7a4a, 1.1, 0.42);
   lanternGlow.position.set(4.95, 3.1, -1.5);
+  lanternGlow.userData.lightGroup = 'neon';
   right.add(lanternGlow);
   const lanternLight = new THREE.PointLight(0xff8a5a, 14, 6, 2);
   lanternLight.position.set(4.95, 2.95, -1.35);
+  lanternLight.userData.lightGroup = 'neon';
   right.add(lanternLight);
 
   builder.add(right, { delay: 1.85, dur: 1.05, mode: 'rise' });

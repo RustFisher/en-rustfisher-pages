@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { buildWorld } from './world.js';
+import { TIME_MODES, WEATHER_MODES } from './environment.js';
 
 /**
  * 雨夜便利店街角 · 微缩模型
@@ -70,7 +71,77 @@ controls.addEventListener('end', () => {
 });
 
 /* ---------------- 世界 ---------------- */
-const world = buildWorld(scene);
+const world = buildWorld(scene, renderer);
+
+/* ---------------- 时间 / 天气切换 ---------------- */
+const TIME_KEY = 'rainy-store:time';
+const WEATHER_KEY = 'rainy-store:weather';
+const timeButtons = Array.from(document.querySelectorAll('button[data-time]'));
+const weatherButtons = Array.from(document.querySelectorAll('button[data-weather]'));
+
+function loadMode(key, modes, fallback) {
+  try {
+    const saved = localStorage.getItem(key);
+    return modes.includes(saved) ? saved : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function applyAtmosphereUI(timeMode, weatherMode) {
+  document.body.dataset.time = timeMode;
+  document.body.dataset.weather = weatherMode;
+  timeButtons.forEach((btn) => {
+    btn.setAttribute('aria-pressed', String(btn.dataset.time === timeMode));
+  });
+  weatherButtons.forEach((btn) => {
+    btn.setAttribute('aria-pressed', String(btn.dataset.weather === weatherMode));
+  });
+}
+
+function storeMode(key, mode) {
+  try {
+    localStorage.setItem(key, mode);
+  } catch {
+    /* 隐私模式下忽略持久化失败 */
+  }
+}
+
+function trackChange(name, payload, clarityEvent) {
+  if (typeof window.gtag === 'function') window.gtag('event', name, payload);
+  if (typeof window.clarity === 'function') window.clarity('event', clarityEvent);
+}
+
+const initialTime = loadMode(TIME_KEY, TIME_MODES, 'night');
+const initialWeather = loadMode(WEATHER_KEY, WEATHER_MODES, 'rain');
+world.environment.setTime(initialTime, true);
+world.environment.setWeather(initialWeather, true);
+applyAtmosphereUI(initialTime, initialWeather);
+
+function setTime(mode) {
+  if (!TIME_MODES.includes(mode) || mode === world.environment.time) return;
+
+  world.environment.setTime(mode);
+  applyAtmosphereUI(mode, world.environment.weather);
+  storeMode(TIME_KEY, mode);
+  trackChange('time_change', { time: mode, weather: world.environment.weather }, 'time_' + mode);
+}
+
+function setWeather(mode) {
+  if (!WEATHER_MODES.includes(mode) || mode === world.environment.weather) return;
+
+  world.environment.setWeather(mode);
+  applyAtmosphereUI(world.environment.time, mode);
+  storeMode(WEATHER_KEY, mode);
+  trackChange('weather_change', { time: world.environment.time, weather: mode }, 'weather_' + mode);
+}
+
+timeButtons.forEach((btn) => {
+  btn.addEventListener('click', () => setTime(btn.dataset.time));
+});
+weatherButtons.forEach((btn) => {
+  btn.addEventListener('click', () => setWeather(btn.dataset.weather));
+});
 
 /* ---------------- 场景内博客灯箱交互 ---------------- */
 const blog = world.blogSign;

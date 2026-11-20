@@ -212,10 +212,12 @@ function streetLamp() {
 
   const glow = glowSprite(0xffc98a, 3.4, 0.6);
   glow.position.set(0, 4.2, 1.0);
+  glow.userData.lightGroup = 'street';
   g.add(glow);
 
   const light = new THREE.PointLight(0xffc98a, 48, 15, 2);
   light.position.set(0, 4.0, 1.05);
+  light.userData.lightGroup = 'street';
   g.add(light);
 
   return g;
@@ -613,6 +615,7 @@ export function buildProps(builder) {
     [11.2, -1.4, 3.6, 4.0],
   ].forEach(([x, z, w, d]) => {
     const p = new THREE.Mesh(new THREE.PlaneGeometry(w, d), reflMat);
+    p.userData.reflect = true;
     p.rotation.x = -Math.PI / 2;
     p.position.set(x, 0.072, z);
     reflection.add(p);

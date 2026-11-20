@@ -262,6 +262,7 @@ export function buildStore(builder) {
     })
   );
   openSign.position.set(-7.4, 2.0, S.z2 - 0.12);
+  openSign.userData.lightGroup = 'neon';
   glazing.add(openSign);
 
   const posterMat = new THREE.MeshBasicMaterial({
@@ -358,10 +359,12 @@ export function buildStore(builder) {
   // 雨棚下的暖光灯带
   const strip = box(3.4, 0.05, 0.06, flat(0xffe6b8), { line: false });
   strip.position.set(-0.15, 2.5, S.z2 + 1.05);
+  strip.userData.lightGroup = 'interior';
   awning.add(strip);
 
   const stripGlow = glowSprite(0xffca85, 2.4, 0.28);
   stripGlow.position.set(-0.15, 2.45, S.z2 + 1.0);
+  stripGlow.userData.lightGroup = 'interior';
   awning.add(stripGlow);
 
   // 斜撑
@@ -383,6 +386,7 @@ export function buildStore(builder) {
   // 门口小夜灯（点光源）
   const entranceLight = new THREE.PointLight(0xffd0a0, 26, 7, 2);
   entranceLight.position.set(-0.15, 2.3, S.z2 + 0.9);
+  entranceLight.userData.lightGroup = 'interior';
   awning.add(entranceLight);
 
   const shadow = contactShadow(4.6, 2.4, 0.5);

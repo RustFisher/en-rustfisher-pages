@@ -205,6 +205,7 @@ export function buildGround(builder) {
     [-10.2, 8.6, 3.0, 2.2],
   ].forEach(([x, z, w, d]) => {
     const p = new THREE.Mesh(new THREE.PlaneGeometry(w, d), puddleMat);
+    p.userData.reflect = true;
     p.rotation.x = -Math.PI / 2;
     p.position.set(x, 0.069, z);
     details.add(p);

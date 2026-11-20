@@ -126,10 +126,12 @@ export function buildInterior(builder) {
       base.add(housing);
       const lamp = box(1.66, 0.04, 0.24, lampMat, { line: false });
       lamp.position.set(x, S.ceiling - 0.11, z);
+      lamp.userData.lightGroup = 'interior';
       base.add(lamp);
       if (ri < 2) {
         const glow = glowSprite(0xfff0cf, 1.9, 0.18);
         glow.position.set(x, S.ceiling - 0.2, z);
+        glow.userData.lightGroup = 'interior';
         base.add(glow);
       }
     });
@@ -455,10 +457,12 @@ export function buildInterior(builder) {
   ].forEach(([x, y, z, i, d]) => {
     const pl = new THREE.PointLight(warm, i, d, 2);
     pl.position.set(x, y, z);
+    pl.userData.lightGroup = 'interior';
     lights.add(pl);
   });
   const cool = new THREE.PointLight(0xdcf2ff, 30, 9, 2);
   cool.position.set(-5.2, 2.4, -8.9);
+  cool.userData.lightGroup = 'interior';
   lights.add(cool);
 
   builder.add(lights, { delay: 2.4, dur: 0.3, mode: 'rise' });
