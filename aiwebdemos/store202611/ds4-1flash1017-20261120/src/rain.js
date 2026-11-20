@@ -56,7 +56,7 @@ const FRAG = /* glsl */ `
 function groundY(x, z) {
   // 巷子地面略高，人行道其次，车行道最低
   if (x > L.alley.x1 && x < L.alley.x2 && z > L.alley.z1 && z < L.alley.z2) return 0.24;
-  const walks = [L.walk.front, L.walk.side, L.walk.far];
+  const walks = [L.walk.front, L.walk.sideNorth, L.walk.sideSouth, L.walk.far];
   for (const w of walks) {
     if (x > w.x1 && x < w.x2 && z > w.z1 && z < w.z2) return 0.2;
   }

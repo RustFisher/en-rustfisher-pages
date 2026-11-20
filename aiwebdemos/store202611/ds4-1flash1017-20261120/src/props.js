@@ -508,7 +508,7 @@ export function buildProps(builder) {
   /* --- 路灯 --- */
   const lamps = new THREE.Group();
   const lampA = streetLamp();
-  lampA.position.set(9.05, WALK_Y, 2.6);
+  lampA.position.set(9.05, WALK_Y, -1.0);
   lamps.add(lampA);
   const lampB = streetLamp();
   lampB.position.set(-11.6, WALK_Y, 0.9);
@@ -523,7 +523,7 @@ export function buildProps(builder) {
 
   /* --- 路牌 --- */
   const sign = streetSign();
-  sign.position.set(9.0, WALK_Y, 1.9);
+  sign.position.set(9.0, WALK_Y, 0.8);
   sign.rotation.y = -0.35;
   builder.add(sign, { delay: 3.45, dur: 0.7, mode: 'pop', from: 1.2 });
 
@@ -532,10 +532,6 @@ export function buildProps(builder) {
   const railA = guardrailSegment(8.0);
   railA.position.set(-4.6, WALK_Y, 1.52);
   rails.add(railA);
-  const railB = guardrailSegment(4.2);
-  railB.position.set(9.52, WALK_Y, 5.0);
-  railB.rotation.y = Math.PI / 2;
-  rails.add(railB);
   builder.add(rails, { delay: 3.4, dur: 0.8, mode: 'drop', from: 1.2 });
 
   /* --- 转角反光镜 --- */

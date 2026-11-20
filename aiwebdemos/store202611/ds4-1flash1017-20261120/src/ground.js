@@ -101,7 +101,8 @@ export function buildGround(builder) {
   };
 
   const frontWalk = slab(L.walk.front.x1, L.walk.front.x2, L.walk.front.z1, L.walk.front.z2);
-  slab(L.walk.side.x1, L.walk.side.x2, L.walk.side.z1, L.walk.side.z2);
+  slab(L.walk.sideNorth.x1, L.walk.sideNorth.x2, L.walk.sideNorth.z1, L.walk.sideNorth.z2);
+  slab(L.walk.sideSouth.x1, L.walk.sideSouth.x2, L.walk.sideSouth.z1, L.walk.sideSouth.z2);
   slab(L.walk.far.x1, L.walk.far.x2, L.walk.far.z1, L.walk.far.z2);
 
   /* 路缘石 */
@@ -130,20 +131,19 @@ export function buildGround(builder) {
   const details = new THREE.Group();
   details.name = 'groundDetails';
 
-  // 斑马线（横穿前街）
+  // 南侧（前街）斑马线：横条沿车行方向，覆盖整条前街宽度
   const zebra = new THREE.Group();
-  for (let i = 0; i < 8; i++) {
-    const stripe = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.015, 5.2), markMat);
-    stripe.position.set(3.4 + i * 0.92, 0.075, 4.55);
-    zebra.add(stripe);
-  }
-  // 斑马线侧向（拐向小巷的支路）
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 7; i++) {
     const stripe = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.015, 0.52), markMat);
-    stripe.position.set(11.2, 0.075, 2.3 + i * 0.86);
+    stripe.position.set(8.2, 0.075, 1.95 + i * 0.86);
     zebra.add(stripe);
   }
   details.add(zebra);
+
+  // 侧路进入路口前的停止线，强化两条路接通的视觉
+  const stopLine = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.012, 0.14), markMat);
+  stopLine.position.set(11.2, 0.07, 7.95);
+  details.add(stopLine);
 
   // 车道边线
   const edgeLine = new THREE.Mesh(new THREE.BoxGeometry(22.6, 0.012, 0.16), markMat);
