@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Rainy Night Convenience Store · Miniature Diorama</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-75DW9T0QB0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-75DW9T0QB0');
+  </script>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #04060c;
+    }
+
+    /* 背景的冷调渐变，让“悬浮模型”有展台感 */
+    body {
+      background:
+        radial-gradient(circle at 50% 38%, #1b2a4a 0%, #0b1220 46%, #04060c 100%);
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+      outline: none;
+    }
+
+    /* 暗角：只做画面氛围，不是 UI 控件 */
+    #vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 45%, transparent 42%, rgba(2, 4, 10, 0.62) 100%);
+    }
+
+    /* 入场黑场淡出 */
+    #fade {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: #04060c;
+      opacity: 1;
+      transition: opacity 1.8s ease;
+    }
+
+    #fade.is-hidden {
+      opacity: 0;
+    }
+
+    /* 键盘 / 读屏兜底链接：默认隐藏，聚焦时出现 */
+    .blog-fallback {
+      position: fixed;
+      left: 50%;
+      bottom: max(20px, env(safe-area-inset-bottom));
+      z-index: 20;
+      padding: 11px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(79, 227, 255, 0.35);
+      background: rgba(10, 18, 32, 0.88);
+      color: #dff5ff;
+      font: 500 13px/1 -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "Microsoft YaHei", sans-serif;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 10px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .blog-fallback:focus-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, 0);
+      outline: 2px solid rgba(111, 255, 208, 0.85);
+      outline-offset: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div id="vignette"></div>
+  <div id="fade"></div>
+
+  <a
+    class="blog-fallback"
+    href="https://en.rustfisher.com/ai/rainy-store-gpt6-1sol-gemini3-8flash/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Blog ↗
+  </a>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./lib/three/three.module.js",
+        "three/addons/controls/OrbitControls.js": "./lib/three/OrbitControls.js"
+      }
+    }
+  </script>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
