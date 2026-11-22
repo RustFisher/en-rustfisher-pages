@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { toon, flat } from './materials.js';
+import { toon, flat, canvasTexture } from './materials.js';
 import { contactShadow } from './kit.js';
 import { L } from './layout.js';
 
@@ -19,6 +19,17 @@ const innerMat = toon(0xd99a9a);
 const noseMat = toon(0x6b4a4a);
 const eyeMat = flat(0xcdf7b4);
 const collarMat = toon(0xb23b3b);
+
+const heartTexture = canvasTexture(64, 64, (ctx, w, h) => {
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = '#ff9db4';
+  ctx.beginPath();
+  ctx.moveTo(w / 2, h - 8);
+  ctx.bezierCurveTo(-6, 32, 18, 2, w / 2, 20);
+  ctx.bezierCurveTo(46, 2, 70, 32, w / 2, h - 8);
+  ctx.closePath();
+  ctx.fill();
+});
 
 const STAND = {
   y: 0.255,
@@ -194,6 +205,35 @@ export function buildCat(builder) {
   const tail = makeTail();
   body.add(tail.root);
 
+  // 点击命中区（比猫略大，方便点到）
+  const hit = new THREE.Mesh(
+    new THREE.BoxGeometry(0.95, 0.8, 0.95),
+    new THREE.MeshBasicMaterial({
+      transparent: true,
+      opacity: 0,
+      depthWrite: false,
+      colorWrite: false,
+    })
+  );
+  hit.position.set(0, 0.3, 0);
+  hit.name = 'catHit';
+  root.add(hit);
+
+  // 被摸时飘起的小爱心
+  const heart = new THREE.Sprite(
+    new THREE.SpriteMaterial({
+      map: heartTexture,
+      transparent: true,
+      opacity: 0,
+      depthWrite: false,
+    })
+  );
+  heart.position.set(0, 0.66, 0);
+  heart.scale.set(0.2, 0.2, 1);
+  heart.visible = false;
+  heart.renderOrder = 6;
+  root.add(heart);
+
   builder.add(root, { delay: 3.45, dur: 0.55, mode: 'pop' });
 
   const HOME = new THREE.Vector3(CAT.home.x, CAT.y, CAT.home.z);
@@ -212,6 +252,8 @@ export function buildCat(builder) {
   let clock = 0;
   let timeOfDay = 'night';
   let skyWeather = 'rain';
+  let petTimer = 0;
+  let petBlend = 0;
 
   const mood = () => MOODS[timeOfDay] || MOODS.night;
 
@@ -250,6 +292,7 @@ export function buildCat(builder) {
 
   return {
     group: root,
+    hit,
     get state() {
       return state;
     },
@@ -261,9 +304,19 @@ export function buildCat(builder) {
       return lie;
     },
 
+    get petting() {
+      return petTimer > 0;
+    },
+
+    pet() {
+      if (active) petTimer = 2.2;
+    },
+
     update(dt, t, mode = 'night', weather = 'rain') {
       timeOfDay = MOODS[mode] ? mode : 'night';
       skyWeather = weather;
+
+      const petting = petTimer > 0;
 
       if (!active) {
         if (t > 4.6) {
@@ -275,38 +328,43 @@ export function buildCat(builder) {
         }
       } else {
         clock += dt;
-        stateT += dt;
+        if (petting) petTimer = Math.max(0, petTimer - dt);
+        else stateT += dt;
       }
 
       if (active) {
-        if (state === 'sitHome') {
-          if (stateT > stateDur) enterRun('runOut');
-        } else if (state === 'sitFar') {
-          if (stateT > stateDur) enterRun('runBack');
-        } else if (state === 'runOut') {
-          const p = THREE.MathUtils.clamp((stateT - 0.25) / runDur, 0, 1);
-          const e = p * p * (3 - 2 * p);
-          root.position.lerpVectors(HOME, FAR, e);
-          if (p >= 1) enterSit('sitFar');
-        } else if (state === 'runBack') {
-          const p = THREE.MathUtils.clamp((stateT - 0.25) / runDur, 0, 1);
-          const e = p * p * (3 - 2 * p);
-          root.position.lerpVectors(FAR, HOME, e);
-          if (p >= 1) enterSit('sitHome');
+        if (!petting) {
+          if (state === 'sitHome') {
+            if (stateT > stateDur) enterRun('runOut');
+          } else if (state === 'sitFar') {
+            if (stateT > stateDur) enterRun('runBack');
+          } else if (state === 'runOut') {
+            const p = THREE.MathUtils.clamp((stateT - 0.25) / runDur, 0, 1);
+            const e = p * p * (3 - 2 * p);
+            root.position.lerpVectors(HOME, FAR, e);
+            if (p >= 1) enterSit('sitFar');
+          } else if (state === 'runBack') {
+            const p = THREE.MathUtils.clamp((stateT - 0.25) / runDur, 0, 1);
+            const e = p * p * (3 - 2 * p);
+            root.position.lerpVectors(FAR, HOME, e);
+            if (p >= 1) enterSit('sitHome');
+          }
         }
 
         yaw += shortest(yaw, yawTarget) * Math.min(1, dt * 7);
         root.rotation.y = yaw;
       }
 
+      petBlend += ((petting ? 1 : 0) - petBlend) * Math.min(1, dt * 10);
+
       const resting = state === 'sitHome' || state === 'sitFar';
-      const running = active && (state === 'runOut' || state === 'runBack') && stateT > 0.25;
+      const running = active && !petting && (state === 'runOut' || state === 'runBack') && stateT > 0.25;
 
       const target = running ? 0 : 1;
       blend += (target - blend) * Math.min(1, dt * 9);
 
-      // 中午犯困：在长坐时趴下，眼睛眯起；其他时间保持坐姿
-      const napTarget = active && resting && mood().nap && stateT > 2.5 ? 1 : 0;
+      // 中午犯困：在长坐时趴下，眼睛眯起；被摸时先抬头
+      const napTarget = active && resting && mood().nap && stateT > 2.5 && !petting ? 1 : 0;
       lie += (napTarget - lie) * Math.min(1, dt * 5);
 
       const mix = (stand, sit, nap) => lerp(lerp(stand, sit, blend), nap, lie);
@@ -319,12 +377,15 @@ export function buildCat(builder) {
 
       body.position.y = mix(STAND.y, SIT.y, NAP.y) + bob + breathe;
       body.rotation.x = mix(STAND.pitch, SIT.pitch, NAP.pitch) + run * 0.05;
-      body.rotation.z = run * Math.sin(gait) * 0.025;
+      body.rotation.z = run * Math.sin(gait) * 0.025 + petBlend * Math.sin(clock * 9) * 0.02;
 
       head.rotation.x =
         mix(STAND.headX, SIT.headX, NAP.headX) +
-        run * Math.sin(gait * 2) * 0.035;
-      head.rotation.y = blend * (1 - lie) * Math.sin(clock * 0.6 + 1.7) * 0.35;
+        run * Math.sin(gait * 2) * 0.035 -
+        petBlend * 0.2;
+      head.rotation.y =
+        blend * (1 - lie) * Math.sin(clock * 0.6 + 1.7) * 0.35 +
+        petBlend * Math.sin(clock * 6) * 0.12;
 
       eyes.forEach((eye) => {
         eye.scale.y = 0.014 * (1 - 0.88 * lie);
@@ -343,9 +404,16 @@ export function buildCat(builder) {
       const tailJ1 = mix(STAND.tailJ1, SIT.tailJ1, NAP.tailJ1);
       const tailJ2 = mix(STAND.tailJ2, SIT.tailJ2, NAP.tailJ2);
       tail.root.rotation.x = tailX + Math.sin(clock * 1.7) * 0.06 * (1 - lie);
-      tail.root.rotation.y = tailY + Math.sin(clock * 1.1) * 0.12 * (1 - lie);
+      tail.root.rotation.y =
+        tailY + Math.sin(clock * 1.1) * 0.12 * (1 - lie) + petBlend * Math.sin(clock * 8) * 0.16;
       tail.j1.rotation.y = tailJ1 + Math.sin(clock * 1.5 + 0.8) * 0.15 * (1 - lie);
       tail.j2.rotation.y = tailJ2 + Math.sin(clock * 1.9 + 1.6) * 0.18 * (1 - lie);
+
+      heart.visible = petBlend > 0.02;
+      heart.material.opacity = petBlend * 0.92;
+      heart.position.y = 0.66 + Math.sin(clock * 2.2) * 0.02 + petBlend * 0.03;
+      const hs = 0.18 + petBlend * 0.07;
+      heart.scale.set(hs, hs, 1);
     },
   };
 }

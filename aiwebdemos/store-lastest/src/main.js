@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { buildWorld } from './world.js';
 import { TIME_MODES, WEATHER_MODES } from './environment.js';
+import { playMeow } from './audio.js';
 
 /**
  * 雨夜便利店街角 · 微缩模型
@@ -25,7 +26,7 @@ renderer.toneMappingExposure = 1.05;
 renderer.domElement.setAttribute('role', 'img');
 renderer.domElement.setAttribute(
   'aria-label',
-  '雨夜便利店街角的微缩三维场景，可拖拽旋转与缩放观看；屋顶的 BLOG 灯箱可点击打开博客'
+  '雨夜便利店街角的微缩三维场景，可拖拽旋转与缩放观看；屋顶的 BLOG 灯箱可点击打开博客，屋檐下的小猫可以摸'
 );
 canvasHost.appendChild(renderer.domElement);
 
@@ -161,9 +162,19 @@ function hitsBlog(event) {
   return blogRaycaster.intersectObject(blog.hit, false).length > 0;
 }
 
-function setBlogHover(on) {
-  renderer.domElement.style.cursor = on ? 'pointer' : '';
-  blog.setHover(on);
+function hitsCat(event) {
+  const rect = renderer.domElement.getBoundingClientRect();
+  blogPointer.set(
+    ((event.clientX - rect.left) / rect.width) * 2 - 1,
+    -((event.clientY - rect.top) / rect.height) * 2 + 1
+  );
+  blogRaycaster.setFromCamera(blogPointer, camera);
+  return blogRaycaster.intersectObject(world.cat.hit, false).length > 0;
+}
+
+function setHoverState(onBlog, onCat) {
+  blog.setHover(onBlog);
+  renderer.domElement.style.cursor = onBlog || onCat ? 'pointer' : '';
 }
 
 renderer.domElement.addEventListener('pointerdown', (event) => {
@@ -177,9 +188,19 @@ renderer.domElement.addEventListener('pointerup', (event) => {
   if (event.pointerId !== pressId) return;
   pressId = null;
 
-  // 拖动旋转超过阈值时不触发跳转
+  // 拖动旋转超过阈值时不触发交互
   if (Math.hypot(event.clientX - pressX, event.clientY - pressY) > 10) return;
-  if (!world.assembly.finished || !hitsBlog(event)) return;
+  if (!world.assembly.finished) return;
+
+  if (hitsCat(event)) {
+    world.cat.pet();
+    playMeow();
+    if (typeof window.gtag === 'function') window.gtag('event', 'cat_pet', { target: 'store_cat' });
+    if (typeof window.clarity === 'function') window.clarity('event', 'cat_pet');
+    return;
+  }
+
+  if (!hitsBlog(event)) return;
 
   if (typeof window.gtag === 'function') {
     window.gtag('event', 'blog_link_click', {
@@ -195,16 +216,17 @@ renderer.domElement.addEventListener('pointerup', (event) => {
 
 renderer.domElement.addEventListener('pointermove', (event) => {
   if (event.pointerType === 'mouse' && event.buttons !== 0) {
-    setBlogHover(false);
+    setHoverState(false, false);
     return;
   }
-  setBlogHover(world.assembly.finished && hitsBlog(event));
+  const ready = world.assembly.finished;
+  setHoverState(ready && hitsBlog(event), ready && hitsCat(event));
 });
 
-renderer.domElement.addEventListener('pointerleave', () => setBlogHover(false));
+renderer.domElement.addEventListener('pointerleave', () => setHoverState(false, false));
 renderer.domElement.addEventListener('pointercancel', () => {
   pressId = null;
-  setBlogHover(false);
+  setHoverState(false, false);
 });
 
 /* ---------------- 尺寸自适应 ---------------- */

@@ -10,7 +10,7 @@ import { L } from './layout.js';
  * 由 main.js 用 Raycaster 做点击 / 悬停检测。
  */
 
-export const BLOG_URL = 'https://en.rustfisher.com/aiwebdemos/store-lastest/index.html';
+export const BLOG_URL = 'https://en.rustfisher.com/ai/evolving-3d-rainy-night-convenience-store/';
 
 const RING_VERT = /* glsl */ `
   varying vec2 vUv;
