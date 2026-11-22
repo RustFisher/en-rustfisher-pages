@@ -10,7 +10,7 @@ import { L } from './layout.js';
  * 由 main.js 用 Raycaster 做点击 / 悬停检测。
  */
 
-export const BLOG_URL = 'https://en.rustfisher.com/ai/rainy-store-gpt6-1sol-gemini3-8flash/';
+export const BLOG_URL = 'https://en.rustfisher.com/aiwebdemos/store-lastest/index.html';
 
 const RING_VERT = /* glsl */ `
   varying vec2 vUv;
