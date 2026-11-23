@@ -110,15 +110,6 @@
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/about/index.html</loc>
-    
-    <lastmod>2025-08-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://en.rustfisher.com/categories/index.html</loc>
     
     <lastmod>2025-08-01</lastmod>
@@ -137,7 +128,7 @@
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_3.html</loc>
+    <loc>https://en.rustfisher.com/about/index.html</loc>
     
     <lastmod>2025-08-01</lastmod>
     
@@ -147,6 +138,15 @@
   
   <url>
     <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_2.html</loc>
+    
+    <lastmod>2025-08-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_3.html</loc>
     
     <lastmod>2025-08-01</lastmod>
     
@@ -164,14 +164,70 @@
 
   
   <url>
-    <loc>https://en.rustfisher.com/tags/self-improvement/</loc>
+    <loc>https://en.rustfisher.com/tags/ChatGPT/</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/tags/dopamine/</loc>
+    <loc>https://en.rustfisher.com/tags/Gemini/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/tags/AI/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/tags/DeepSeek/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/tags/Copilot/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/tags/doubao/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/tags/Three-js/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/tags/WebGL/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/tags/DevLog/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/tags/Frontend/</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -220,48 +276,6 @@
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/tags/AI/</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://en.rustfisher.com/tags/ChatGPT/</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://en.rustfisher.com/tags/Gemini/</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://en.rustfisher.com/tags/DeepSeek/</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://en.rustfisher.com/tags/Copilot/</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://en.rustfisher.com/tags/doubao/</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://en.rustfisher.com/tags/GameDev/</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -290,28 +304,7 @@
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/tags/Three-js/</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://en.rustfisher.com/tags/WebGL/</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://en.rustfisher.com/tags/DevLog/</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://en.rustfisher.com/tags/Frontend/</loc>
+    <loc>https://en.rustfisher.com/tags/Thanksgiving/</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -325,7 +318,14 @@
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/tags/Thanksgiving/</loc>
+    <loc>https://en.rustfisher.com/tags/self-improvement/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/tags/dopamine/</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -334,7 +334,7 @@
 
   
   <url>
-    <loc>https://en.rustfisher.com/categories/self-improvement/</loc>
+    <loc>https://en.rustfisher.com/categories/ai/</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -348,7 +348,7 @@
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/categories/ai/</loc>
+    <loc>https://en.rustfisher.com/categories/self-improvement/</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
