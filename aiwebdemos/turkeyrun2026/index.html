@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#2b1a0f" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f0d9ae'/%3E%3Ccircle cx='32' cy='38' r='17' fill='%237b4a2a'/%3E%3Ccircle cx='32' cy='19' r='9' fill='%238e5a33'/%3E%3Ccircle cx='28' cy='17' r='2' fill='%231a1410'/%3E%3Ccircle cx='36' cy='17' r='2' fill='%231a1410'/%3E%3Cpath d='M34 22l8 5-8 3z' fill='%23e0a23a'/%3E%3Cpath d='M27 25c0 6 4 7 4 2z' fill='%23c0392b'/%3E%3Cpath d='M17 37c-9-6-8-16-1-13 3 2 4 8 4 12zM47 37c9-6 8-16 1-13-3 2-4 8-4 12z' fill='%23d06a2a'/%3E%3C/svg%3E"
+    />
+    <meta
+      name="description"
+      content="Turkey Run - a tiny low-poly Thanksgiving escape game. Sneak past the human, reach the gate, and do not get roasted."
+    />
+    <title>Turkey Run - NO ROAST FOR ME!</title>
+    <script type="module" crossorigin src="./assets/index-DZGiPznm.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CJE2HcUZ.css">
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="game-canvas" aria-label="Turkey Run 3D game"></canvas>
+      <div id="vignette"></div>
+      <div id="danger-vignette"></div>
+      <div id="screen-flash"></div>
+
+      <div id="ui">
+        <div id="hud" class="hud hidden">
+          <div class="hud-top">
+            <div id="alert-card" class="alert-card safe">
+              <span class="alert-dot"></span>
+              <div class="alert-text">
+                <span id="alert-title" class="alert-title">SAFE</span>
+                <span id="alert-sub" class="alert-sub">The yard is quiet</span>
+              </div>
+            </div>
+
+            <div class="objective-card">
+              <span class="objective-title">Find the gate. Don't get roasted.</span>
+              <span id="objective-dist" class="objective-dist">Gate 38 m</span>
+            </div>
+
+            <div class="hud-buttons">
+              <button id="mute-btn" class="icon-btn" type="button">SOUND ON</button>
+              <button id="pause-btn" class="icon-btn" type="button">PAUSE</button>
+            </div>
+          </div>
+
+          <div class="hud-bottom">
+            <div class="stamina-card">
+              <div class="stamina-row">
+                <span>STAMINA</span>
+                <span id="stamina-value">100%</span>
+              </div>
+              <div class="bar"><div id="stamina-fill"></div></div>
+            </div>
+            <div id="hide-badge" class="hide-badge hidden">HIDDEN</div>
+          </div>
+
+          <div id="prompt" class="prompt hidden">Hold SPACE to hide</div>
+          <div id="toast" class="toast hidden"></div>
+        </div>
+
+        <div id="start-screen" class="overlay">
+          <div class="card start-card">
+            <span class="eyebrow">A THANKSGIVING ESCAPE STORY</span>
+            <h1 class="logo">TURKEY RUN</h1>
+            <p class="tagline">NO ROAST FOR ME!</p>
+            <p class="story">
+              Thanksgiving is tomorrow. The gate is open, the human is distracted, and his dog is
+              very much not. You are also extremely delicious. Sneak, sprint, hide, and get out
+              before the oven preheats.
+            </p>
+
+            <div class="best-run">
+              <span class="best-run-label">BEST RUN</span>
+              <span id="best-run-value" class="best-run-value empty">No escape yet</span>
+            </div>
+
+            <div class="controls-grid">
+              <div class="control"><kbd>W A S D</kbd><span>Move</span></div>
+              <div class="control"><kbd>SHIFT</kbd><span>Sprint</span></div>
+              <div class="control"><kbd>SPACE / H</kbd><span>Hold near cover</span></div>
+              <div class="control"><kbd>ESC</kbd><span>Pause</span></div>
+            </div>
+
+            <div class="start-actions">
+              <button id="start-btn" class="btn primary" type="button">START RUNNING</button>
+              <button id="history-btn" class="btn ghost" type="button">RUN HISTORY</button>
+              <button id="quality-btn" class="btn ghost" type="button">GRAPHICS: HIGH</button>
+            </div>
+            <p class="fine-print">Tip: sprinting is loud and noticeable. Bushes are your friends. The dog is not.</p>
+          </div>
+        </div>
+
+        <div id="pause-screen" class="overlay hidden">
+          <div class="card pause-card">
+            <span class="eyebrow">TAKING A BREATHER</span>
+            <h2>PAUSED</h2>
+            <p class="story">The human is also pretending not to check his phone.</p>
+            <div class="end-actions">
+              <button id="resume-btn" class="btn primary" type="button">KEEP RUNNING</button>
+              <button id="pause-restart-btn" class="btn ghost" type="button">RESTART</button>
+              <button id="pause-history-btn" class="btn ghost" type="button">HISTORY</button>
+              <button id="pause-quality-btn" class="btn ghost" type="button">GRAPHICS: HIGH</button>
+              <button id="pause-mute-btn" class="btn ghost" type="button">SOUND ON</button>
+            </div>
+            <p class="fine-print">ESC resumes.</p>
+          </div>
+        </div>
+
+        <div id="end-screen" class="overlay hidden">
+          <div class="card end-card">
+            <span id="end-eyebrow" class="eyebrow">THE RESULTS ARE IN</span>
+            <h2 id="end-title">FREEDOM!</h2>
+            <p id="end-subtitle" class="tagline">You escaped Thanksgiving!</p>
+
+            <div class="result-hero">
+              <div id="grade-badge" class="grade-badge" data-grade="S">
+                <span id="grade-letter" class="grade-letter">S</span>
+                <span id="grade-label" class="grade-label">FREE RANGE</span>
+              </div>
+              <div class="result-time">
+                <span id="result-time-value" class="result-time-value">0:00</span>
+                <span id="result-time-label" class="result-time-label">ESCAPE TIME</span>
+              </div>
+            </div>
+
+            <div class="result-stats">
+              <div class="result-stat">
+                <span id="stat-spotted" class="result-stat-value">0</span>
+                <span class="result-stat-label">SPOTTED</span>
+              </div>
+              <div class="result-stat">
+                <span id="stat-chased" class="result-stat-value">0</span>
+                <span class="result-stat-label">CHASED</span>
+              </div>
+              <div class="result-stat">
+                <span id="stat-hides" class="result-stat-value">0</span>
+                <span class="result-stat-label">HIDES</span>
+              </div>
+              <div class="result-stat">
+                <span id="stat-distractions" class="result-stat-value">0</span>
+                <span class="result-stat-label">PHONE BREAKS</span>
+              </div>
+            </div>
+
+            <p id="end-detail" class="story"></p>
+            <p id="record-line" class="record-line"></p>
+            <div class="end-actions">
+              <button id="retry-btn" class="btn primary" type="button">RUN AGAIN</button>
+              <button id="end-share-btn" class="btn ghost" type="button">SHARE CARD</button>
+              <button id="end-history-btn" class="btn ghost" type="button">HISTORY</button>
+              <button id="end-mute-btn" class="btn ghost" type="button">SOUND ON</button>
+            </div>
+            <p class="fine-print">Press ENTER to restart.</p>
+          </div>
+        </div>
+
+        <div id="history-screen" class="overlay hidden">
+          <div class="card history-card">
+            <span class="eyebrow">THE RECORD BOOK</span>
+            <h2 class="history-heading">RUN HISTORY</h2>
+            <p class="story">Your last 10 attempts, stored only in this browser.</p>
+            <div id="history-list" class="history-list"></div>
+            <div class="end-actions">
+              <button id="history-close-btn" class="btn primary" type="button">BACK</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="share-screen" class="overlay hidden">
+          <div class="card share-preview-card">
+            <span class="eyebrow">BRAG WITHOUT GETTING ROASTED</span>
+            <h2 class="share-heading">YOUR RUN CARD</h2>
+            <img id="share-image" class="share-image" alt="Turkey Run result card" />
+            <div class="end-actions">
+              <button id="share-download-btn" class="btn primary" type="button">DOWNLOAD PNG</button>
+              <button id="share-native-btn" class="btn ghost hidden" type="button">SHARE</button>
+              <button id="share-close-btn" class="btn ghost" type="button">CLOSE</button>
+            </div>
+            <p class="fine-print">A 1200 × 630 card, generated locally. Nothing is uploaded.</p>
+          </div>
+        </div>
+
+        <div id="quality-screen" class="overlay hidden">
+          <div class="card quality-card">
+            <span class="eyebrow">PERFORMANCE SETTINGS</span>
+            <h2 class="quality-heading">GRAPHICS</h2>
+            <p class="story">Lower presets improve frame rate on weaker devices. Choose what feels smooth.</p>
+            <div class="quality-options">
+              <button id="quality-option-high" class="quality-option" data-quality="high" type="button">
+                <span class="quality-option-title">HIGH</span>
+                <span class="quality-option-desc">Up to 2× resolution · 2048 shadows · full effects</span>
+              </button>
+              <button id="quality-option-medium" class="quality-option" data-quality="medium" type="button">
+                <span class="quality-option-title">MEDIUM</span>
+                <span class="quality-option-desc">Up to 1.5× resolution · 1024 shadows · reduced effects</span>
+              </button>
+              <button id="quality-option-low" class="quality-option" data-quality="low" type="button">
+                <span class="quality-option-title">LOW</span>
+                <span class="quality-option-desc">1× resolution · shadows off · minimal effects</span>
+              </button>
+            </div>
+            <div class="quality-stats">
+              <div class="quality-stat">
+                <span id="perf-fps" class="quality-stat-value">--</span>
+                <span class="quality-stat-label">FPS</span>
+              </div>
+              <div class="quality-stat">
+                <span id="perf-calls" class="quality-stat-value">--</span>
+                <span class="quality-stat-label">DRAW CALLS</span>
+              </div>
+              <div class="quality-stat">
+                <span id="perf-ratio" class="quality-stat-value">--</span>
+                <span class="quality-stat-label">PIXEL RATIO</span>
+              </div>
+            </div>
+            <p class="fine-print">Anti-aliasing is fixed at startup. Performance is measured live.</p>
+            <div class="end-actions">
+              <button id="quality-close-btn" class="btn primary" type="button">BACK</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="mobile-controls" class="mobile-controls hidden">
+          <div id="joystick" class="joystick">
+            <div id="joystick-knob" class="joystick-knob"></div>
+          </div>
+          <div class="mobile-actions">
+            <button id="mobile-sprint" class="mobile-btn sprint" type="button">SPRINT</button>
+            <button id="mobile-hide" class="mobile-btn hide" type="button">HIDE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
