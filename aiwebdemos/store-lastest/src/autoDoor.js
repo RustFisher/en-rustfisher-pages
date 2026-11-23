@@ -15,7 +15,7 @@ const CLOSE_DELAY = 1.0;
 const LAMP_CLOSED = new THREE.Color(0x7bffb0);
 const LAMP_OPEN = new THREE.Color(0xffd27b);
 
-export function createAutoDoor({ panels, sensorLamp, cat }) {
+export function createAutoDoor({ panels, sensorLamp, actors }) {
   const [panelL, panelR] = panels;
   const baseL = panelL.position.x;
   const baseR = panelR.position.x;
@@ -25,11 +25,15 @@ export function createAutoDoor({ panels, sensorLamp, cat }) {
   let time = 0;
   let lampColor = LAMP_CLOSED.clone();
 
-  function catInZone() {
-    const x = cat.position.x;
-    const z = cat.position.z;
-    // 只在门口附近触发；猫在路边 z≈1.0 时不应开门
-    return z > -1.9 && z < -0.55 && x > TRIGGER_MIN && x < TRIGGER_MAX;
+  function actorNearDoor() {
+    for (const actor of actors) {
+      if (!actor) continue;
+      const x = actor.position.x;
+      const z = actor.position.z;
+      // 门口两侧都算，但路边的角色不会触发
+      if (z > -2.6 && z < -0.55 && x > TRIGGER_MIN && x < TRIGGER_MAX) return true;
+    }
+    return false;
   }
 
   function apply() {
@@ -51,13 +55,13 @@ export function createAutoDoor({ panels, sensorLamp, cat }) {
     update(dt) {
       time += dt;
 
-      if (catInZone()) {
+      if (actorNearDoor()) {
         closeTimer = 0;
       } else {
         closeTimer += dt;
       }
 
-      const target = catInZone() || closeTimer < CLOSE_DELAY ? 1 : 0;
+      const target = actorNearDoor() || closeTimer < CLOSE_DELAY ? 1 : 0;
       const k = 1 - Math.exp(-dt * (target > openT ? 9 : 3));
       openT += (target - openT) * k;
 

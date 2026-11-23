@@ -7,6 +7,7 @@ import { buildProps } from './props.js';
 import { buildBlogSign } from './blogSign.js';
 import { buildSmokers } from './smokers.js';
 import { buildCat } from './cat.js';
+import { buildCustomer } from './customer.js';
 import { Assembly } from './assembly.js';
 import { createRain } from './rain.js';
 import { createEnvironment } from './environment.js';
@@ -60,6 +61,7 @@ export function buildWorld(scene, renderer) {
   buildProps(builder);
   const blogSign = buildBlogSign(builder);
   const cat = buildCat(builder);
+  const customer = buildCustomer(builder);
   const smokers = buildSmokers(builder);
 
   const assembly = new Assembly(scene);
@@ -70,7 +72,7 @@ export function buildWorld(scene, renderer) {
   const autoDoor = createAutoDoor({
     panels: storeRefs.doorPanels,
     sensorLamp: storeRefs.sensorLamp,
-    cat: cat.group,
+    actors: [cat.group, customer.group],
   });
 
   /* ---------------- 雨 ---------------- */
@@ -88,6 +90,7 @@ export function buildWorld(scene, renderer) {
     rain,
     blogSign,
     cat,
+    customer001: customer,
     environment,
     autoDoor,
     doorPanels: storeRefs.doorPanels,
@@ -111,6 +114,7 @@ export function buildWorld(scene, renderer) {
 
       // 门前小猫：按时间段调整作息，坐一会、跑一段、再跑回来
       cat.update(dt, t, environment.time, environment.weather, environment.rainAmount);
+      customer.update(dt, t, environment.rainAmount);
 
       // 自动门：猫咪跑过门口时打开，离开后缓闭
       autoDoor.update(dt);
