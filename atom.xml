@@ -10,7 +10,7 @@
   <rights>All rights reserved 2026, Rust Fisher</rights>
   <subtitle>Code, AI | Better Living</subtitle>
   <title>RustFisher Notes</title>
-  <updated>2026-11-22T15:04:11.279Z</updated>
+  <updated>2026-11-23T00:25:48.999Z</updated>
   <entry>
     <author>
       <name>Rust Fisher</name>
@@ -23,7 +23,7 @@
     <category term="DevLog" scheme="https://en.rustfisher.com/tags/DevLog/"/>
     <category term="Frontend" scheme="https://en.rustfisher.com/tags/Frontend/"/>
     <content>
-      <![CDATA[<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>Following our initial <a href="/ai/rainy-store-gpt6-1sol-gemini3-8flash/">three-model side-by-side benchmark</a>, the 3D rainy night convenience store diorama stood out as an engaging canvas for creative coding. </p><p>This devlog tracks the step-by-step evolution of the scene, its technical highlights, and key takeaways from incremental AI pair programming in Three.js.</p><p>Lastest demo<br><a href="https://en.rustfisher.com/aiwebdemos/store-lastest/index.html">Rainy Night Convenience Store</a></p><h2 id="Update"><a href="#Update" class="headerlink" title="Update"></a>Update</h2><ul><li><strong>2026-11-22</strong>: Added interactive cat animations upon click:<ul><li>Clicking the cat pauses its current activity: it looks up, wags its tail, and emits floating heart particles.</li><li>Automatically resumes its normal daily routine once the interaction finishes.</li></ul></li><li><strong>2026-11-20</strong>: Major update introducing full dynamic environment controls, scene polish, and interactive elements:<ul><li>Connected the two road segments, retained only the south crosswalk, and corrected its orientation.</li><li>Adjusted camera zoom limits to allow closer inspection of details.</li><li>Added switching across Morning &#x2F; Noon &#x2F; Evening &#x2F; Midnight combined with Rain &#x2F; Cloudy &#x2F; Clear skies; dynamically coordinates skybox, environment lighting, exposure, streetlamps, neon signs, interior lights, and puddle reflections.</li><li>Added a cat that moves based on the time of day, taking a nap around noon.</li><li>Clickable rooftop “BLOG” lightbox with an animated racing light border.</li><li><a href="https://en.rustfisher.com/aiwebdemos/store202611/ds4-1flash1017-20261120/index.html">Rainy Night Convenience Store (Updated with billboard, weather, cat &amp; analytics)</a></li></ul></li><li><strong>2026-11-19</strong>: Updated the DeepSeek version to include two characters outside the convenience store. <a href="https://en.rustfisher.com/aiwebdemos/store202611/deepseek4-1flash1017-2026-11-19/index.html">Rainy Night Convenience Store(Updated with Characters)</a></li></ul>]]>
+      <![CDATA[<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>Following our initial <a href="/ai/rainy-store-gpt6-1sol-gemini3-8flash/">three-model side-by-side benchmark</a>, the 3D rainy night convenience store diorama stood out as an engaging canvas for creative coding. </p><p>This devlog tracks the step-by-step evolution of the scene, its technical highlights, and key takeaways from incremental AI pair programming in Three.js.</p><p>Lastest demo<br><a href="https://en.rustfisher.com/aiwebdemos/store-lastest/index.html">Rainy Night Convenience Store</a></p><h2 id="Update"><a href="#Update" class="headerlink" title="Update"></a>Update</h2><ul><li><strong>2026-11-23</strong>: Added automatic sliding doors and camera auto-orbit controls:<ul><li>The convenience store doors now open and close automatically.</li><li>Added a 3-way toggle control for camera auto-orbit (Off &#x2F; Left &#x2F; Right, defaulting to Off).</li><li><a href="https://en.rustfisher.com/aiwebdemos/store202611/20261123/index.html">Rainy Night Convenience Store (2026-11-23)</a></li></ul></li><li><strong>2026-11-22</strong>: Added interactive cat animations upon click:<ul><li>Clicking the cat pauses its current activity: it looks up, wags its tail, and emits floating heart particles.</li><li>Automatically resumes its normal daily routine once the interaction finishes.</li></ul></li><li><strong>2026-11-20</strong>: Major update introducing full dynamic environment controls, scene polish, and interactive elements:<ul><li>Connected the two road segments, retained only the south crosswalk, and corrected its orientation.</li><li>Adjusted camera zoom limits to allow closer inspection of details.</li><li>Added switching across Morning &#x2F; Noon &#x2F; Evening &#x2F; Midnight combined with Rain &#x2F; Cloudy &#x2F; Clear skies; dynamically coordinates skybox, environment lighting, exposure, streetlamps, neon signs, interior lights, and puddle reflections.</li><li>Added a cat that moves based on the time of day, taking a nap around noon.</li><li>Clickable rooftop “BLOG” lightbox with an animated racing light border.</li><li><a href="https://en.rustfisher.com/aiwebdemos/store202611/ds4-1flash1017-20261120/index.html">Rainy Night Convenience Store (Updated with billboard, weather, cat &amp; analytics)</a></li></ul></li><li><strong>2026-11-19</strong>: Updated the DeepSeek version to include two characters outside the convenience store. <a href="https://en.rustfisher.com/aiwebdemos/store202611/deepseek4-1flash1017-2026-11-19/index.html">Rainy Night Convenience Store(Updated with Characters)</a></li></ul>]]>
     </content>
     <id>https://en.rustfisher.com/ai/evolving-3d-rainy-night-convenience-store/</id>
     <link href="https://en.rustfisher.com/ai/evolving-3d-rainy-night-convenience-store/"/>
@@ -32,15 +32,15 @@
     <title>
       <![CDATA[Evolving the 3D Rainy Night Convenience Store | DevLog & AI Iterations]]>
     </title>
-    <updated>2026-11-22T15:04:11.279Z</updated>
+    <updated>2026-11-23T00:25:48.999Z</updated>
   </entry>
   <entry>
     <author>
       <name>Rust Fisher</name>
     </author>
     <category term="ai" scheme="https://en.rustfisher.com/categories/ai/"/>
-    <category term="AI" scheme="https://en.rustfisher.com/tags/AI/"/>
     <category term="Gemini" scheme="https://en.rustfisher.com/tags/Gemini/"/>
+    <category term="AI" scheme="https://en.rustfisher.com/tags/AI/"/>
     <category term="DeepSeek" scheme="https://en.rustfisher.com/tags/DeepSeek/"/>
     <category term="Three.js" scheme="https://en.rustfisher.com/tags/Three-js/"/>
     <category term="GPT" scheme="https://en.rustfisher.com/tags/GPT/"/>
@@ -121,8 +121,8 @@
       <name>Rust Fisher</name>
     </author>
     <category term="ai" scheme="https://en.rustfisher.com/categories/ai/"/>
-    <category term="AI" scheme="https://en.rustfisher.com/tags/AI/"/>
     <category term="Gemini" scheme="https://en.rustfisher.com/tags/Gemini/"/>
+    <category term="AI" scheme="https://en.rustfisher.com/tags/AI/"/>
     <category term="DeepSeek" scheme="https://en.rustfisher.com/tags/DeepSeek/"/>
     <category term="GPT" scheme="https://en.rustfisher.com/tags/GPT/"/>
     <content>
@@ -173,9 +173,9 @@
       <name>Rust Fisher</name>
     </author>
     <category term="ai" scheme="https://en.rustfisher.com/categories/ai/"/>
-    <category term="AI" scheme="https://en.rustfisher.com/tags/AI/"/>
     <category term="ChatGPT" scheme="https://en.rustfisher.com/tags/ChatGPT/"/>
     <category term="Gemini" scheme="https://en.rustfisher.com/tags/Gemini/"/>
+    <category term="AI" scheme="https://en.rustfisher.com/tags/AI/"/>
     <content>
       <![CDATA[<h1 id="Using-ChatGPT-to-Modify-Images"><a href="#Using-ChatGPT-to-Modify-Images" class="headerlink" title="Using ChatGPT to Modify Images"></a>Using ChatGPT to Modify Images</h1><p>Use a ChatGPT Free account. Try ChatGPT’s image modification function.</p><p>The original image is a toy image.</p><p><img src="/img/chatgpt-change-image-style/labubu-1.png" alt="origin image labubu"></p><p>On the <a href="https://chatgpt.com/">ChatGPT</a>, upload the image and indicate that you want to modify it as follows:</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">let this toy dress in blue<br></code></pre></td></tr></table></figure><p>After waiting for a while, the output image is as follows:</p><p><img src="/img/chatgpt-change-image-style/chatgpt-blue-1.png" alt="ChatGPT output blue"></p><p>It can be seen that the toy’s ears have also turned blue.</p><p>Enter again to give it a moon and stars style:</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Incorporate elements of stars and the moon into this toy.<br></code></pre></td></tr></table></figure><p>Wait a little longer, and the output image is:</p><p><img src="/img/chatgpt-change-image-style/chatgpt-stars-1.png" alt="ChatGPT output moon and stars"></p><p>ChatGPT does not just modify colors and styles solely based on instructions. You can also input an additional image and let it modify according to the style of another image.</p><p>For example, upload both the toy and <em>The Starry Night</em> at the same time.</p><p><img src="/img/chatgpt-change-image-style/labubu-1.png" alt="origin image labubu"></p><p><img src="/img/chatgpt-change-image-style/fangao.jpg" alt="The Starry Night"></p><p>Enter the instruction:</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Let the toy&#x27;s clothes have the style of this oil painting.<br></code></pre></td></tr></table></figure><p>The resulting image is:</p><p><img src="/img/chatgpt-change-image-style/chatgpt-fangao.png" alt="toy and The Starry Night"></p><p>It can be seen that the toy has oil painting-like colors, and the toy’s face has also been modified.</p><p>Tell ChatGPT again:</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Do not modify the toy&#x27;s face.<br></code></pre></td></tr></table></figure><p>After a while, the given image is:</p><p><img src="/img/chatgpt-change-image-style/chatgpt-fangao-2.png" alt="toy2 and The Starry Night"></p><blockquote><p>ChatGPT’s image processing function is quite good.<br>Unfortunately, the Free version only allows inputting a few images a day. Next, let’s try Google Gemini.</p></blockquote><h1 id="Gemini-Modifying-Image-Styles"><a href="#Gemini-Modifying-Image-Styles" class="headerlink" title="Gemini Modifying Image Styles"></a>Gemini Modifying Image Styles</h1><p>On the <a href="https://gemini.google.com/">Gemini</a>, also upload the toy image.</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">let this toy dress in blue<br></code></pre></td></tr></table></figure><p>Gemini’s output image:</p><p><img src="/img/chatgpt-change-image-style/gemini-toy-blue-1.png" alt="Gemini output toy in blue"></p><p>The output image has a black background on both sides. The toy’s edges have jagged lines. The effect seems worse than ChatGPT.</p>]]>
     </content>
@@ -191,9 +191,9 @@
       <name>Rust Fisher</name>
     </author>
     <category term="ai" scheme="https://en.rustfisher.com/categories/ai/"/>
-    <category term="AI" scheme="https://en.rustfisher.com/tags/AI/"/>
     <category term="ChatGPT" scheme="https://en.rustfisher.com/tags/ChatGPT/"/>
     <category term="Gemini" scheme="https://en.rustfisher.com/tags/Gemini/"/>
+    <category term="AI" scheme="https://en.rustfisher.com/tags/AI/"/>
     <category term="DeepSeek" scheme="https://en.rustfisher.com/tags/DeepSeek/"/>
     <category term="Copilot" scheme="https://en.rustfisher.com/tags/Copilot/"/>
     <category term="doubao" scheme="https://en.rustfisher.com/tags/doubao/"/>

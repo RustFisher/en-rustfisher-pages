@@ -53,32 +53,39 @@ controls.maxDistance = 70;
 controls.minPolarAngle = 0.2;
 controls.maxPolarAngle = Math.PI / 2 - 0.05;
 
-// 缓慢自动环绕，用户操作时暂停，静止后再恢复
-const AUTO_ROTATE_SPEED = 0.32;
-const IDLE_RESUME = 4.5;
-controls.autoRotate = true;
-controls.autoRotateSpeed = AUTO_ROTATE_SPEED;
+// 自动环绕：off / left / right 三档，默认关闭，由左上角控件切换
+const ROTATE_SPEED = 0.32;
+let rotateMode = 'off';
+let dragging = false;
 
-let userActive = false;
-let idleTime = 0;
+controls.autoRotate = false;
+
+function applyRotateMode() {
+  controls.autoRotate = rotateMode !== 'off' && !dragging;
+  controls.autoRotateSpeed = rotateMode === 'left' ? ROTATE_SPEED : -ROTATE_SPEED;
+}
 
 controls.addEventListener('start', () => {
-  userActive = true;
-  controls.autoRotate = false;
+  dragging = true;
+  applyRotateMode();
 });
 controls.addEventListener('end', () => {
-  userActive = false;
-  idleTime = 0;
+  dragging = false;
+  applyRotateMode();
 });
+
 
 /* ---------------- 世界 ---------------- */
 const world = buildWorld(scene, renderer);
 
-/* ---------------- 时间 / 天气切换 ---------------- */
+/* ---------------- 时间 / 天气 / 旋转切换 ---------------- */
 const TIME_KEY = 'rainy-store:time';
 const WEATHER_KEY = 'rainy-store:weather';
+const ROTATE_KEY = 'rainy-store:rotate';
+const ROTATE_MODES = ['off', 'left', 'right'];
 const timeButtons = Array.from(document.querySelectorAll('button[data-time]'));
 const weatherButtons = Array.from(document.querySelectorAll('button[data-weather]'));
+const rotateButtons = Array.from(document.querySelectorAll('button[data-rotate]'));
 
 function loadMode(key, modes, fallback) {
   try {
@@ -89,7 +96,7 @@ function loadMode(key, modes, fallback) {
   }
 }
 
-function applyAtmosphereUI(timeMode, weatherMode) {
+function applyAtmosphereUI(timeMode, weatherMode, rotateMode2) {
   document.body.dataset.time = timeMode;
   document.body.dataset.weather = weatherMode;
   timeButtons.forEach((btn) => {
@@ -97,6 +104,9 @@ function applyAtmosphereUI(timeMode, weatherMode) {
   });
   weatherButtons.forEach((btn) => {
     btn.setAttribute('aria-pressed', String(btn.dataset.weather === weatherMode));
+  });
+  rotateButtons.forEach((btn) => {
+    btn.setAttribute('aria-pressed', String(btn.dataset.rotate === rotateMode2));
   });
 }
 
@@ -115,15 +125,18 @@ function trackChange(name, payload, clarityEvent) {
 
 const initialTime = loadMode(TIME_KEY, TIME_MODES, 'night');
 const initialWeather = loadMode(WEATHER_KEY, WEATHER_MODES, 'rain');
+const initialRotate = loadMode(ROTATE_KEY, ROTATE_MODES, 'off');
 world.environment.setTime(initialTime, true);
 world.environment.setWeather(initialWeather, true);
-applyAtmosphereUI(initialTime, initialWeather);
+rotateMode = initialRotate;
+applyRotateMode();
+applyAtmosphereUI(initialTime, initialWeather, initialRotate);
 
 function setTime(mode) {
   if (!TIME_MODES.includes(mode) || mode === world.environment.time) return;
 
   world.environment.setTime(mode);
-  applyAtmosphereUI(mode, world.environment.weather);
+  applyAtmosphereUI(mode, world.environment.weather, rotateMode);
   storeMode(TIME_KEY, mode);
   trackChange('time_change', { time: mode, weather: world.environment.weather }, 'time_' + mode);
 }
@@ -132,9 +145,19 @@ function setWeather(mode) {
   if (!WEATHER_MODES.includes(mode) || mode === world.environment.weather) return;
 
   world.environment.setWeather(mode);
-  applyAtmosphereUI(world.environment.time, mode);
+  applyAtmosphereUI(world.environment.time, mode, rotateMode);
   storeMode(WEATHER_KEY, mode);
   trackChange('weather_change', { time: world.environment.time, weather: mode }, 'weather_' + mode);
+}
+
+function setRotateMode(mode) {
+  if (!ROTATE_MODES.includes(mode) || mode === rotateMode) return;
+
+  rotateMode = mode;
+  applyRotateMode();
+  applyAtmosphereUI(world.environment.time, world.environment.weather, mode);
+  storeMode(ROTATE_KEY, mode);
+  trackChange('rotate_change', { mode }, 'rotate_' + mode);
 }
 
 timeButtons.forEach((btn) => {
@@ -142,6 +165,9 @@ timeButtons.forEach((btn) => {
 });
 weatherButtons.forEach((btn) => {
   btn.addEventListener('click', () => setWeather(btn.dataset.weather));
+});
+rotateButtons.forEach((btn) => {
+  btn.addEventListener('click', () => setRotateMode(btn.dataset.rotate));
 });
 
 /* ---------------- 场景内博客灯箱交互 ---------------- */
@@ -273,11 +299,6 @@ renderer.setAnimationLoop(() => {
 
   world.update(dt);
 
-  if (!userActive) {
-    idleTime += dt;
-    if (idleTime > IDLE_RESUME) controls.autoRotate = true;
-  }
-
   controls.update();
   renderer.render(scene, camera);
 
@@ -287,4 +308,5 @@ renderer.setAnimationLoop(() => {
     requestAnimationFrame(() => fadeEl && fadeEl.classList.add('is-hidden'));
   }
 });
+
 

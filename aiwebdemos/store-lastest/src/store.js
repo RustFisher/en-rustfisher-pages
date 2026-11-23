@@ -239,8 +239,10 @@ export function buildStore(builder) {
     g.add(frameR);
     return g;
   };
-  doorGroup.add(panel(-0.82, 1.32));
-  doorGroup.add(panel(0.57, 1.32));
+  const panelL = panel(-0.82, 1.32);
+  const panelR = panel(0.57, 1.32);
+  doorGroup.add(panelL);
+  doorGroup.add(panelR);
 
   // 自动门感应器
   const sensor = box(0.5, 0.16, 0.16, toon(0x222a38));
@@ -398,5 +400,9 @@ export function buildStore(builder) {
   /* ---------------- 店内 ---------------- */
   buildInterior(builder);
 
-  return store;
+  return {
+    store,
+    doorPanels: [panelL, panelR],
+    sensorLamp,
+  };
 }

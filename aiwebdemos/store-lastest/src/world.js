@@ -10,6 +10,7 @@ import { buildCat } from './cat.js';
 import { Assembly } from './assembly.js';
 import { createRain } from './rain.js';
 import { createEnvironment } from './environment.js';
+import { createAutoDoor } from './autoDoor.js';
 
 /**
  * 世界编排：灯光 + 建模模块 + 装配时间线 + 雨效
@@ -54,7 +55,7 @@ export function buildWorld(scene, renderer) {
   /* ---------------- 建模 ---------------- */
   const builder = new Builder();
   buildGround(builder);
-  buildStore(builder);
+  const storeRefs = buildStore(builder);
   buildBuildings(builder);
   buildProps(builder);
   const blogSign = buildBlogSign(builder);
@@ -65,6 +66,12 @@ export function buildWorld(scene, renderer) {
   builder.flush(assembly);
 
   const environment = createEnvironment({ scene, renderer, hemi, ambient, sun, fill });
+
+  const autoDoor = createAutoDoor({
+    panels: storeRefs.doorPanels,
+    sensorLamp: storeRefs.sensorLamp,
+    cat: cat.group,
+  });
 
   /* ---------------- 雨 ---------------- */
   const rain = createRain(scene);
@@ -82,6 +89,9 @@ export function buildWorld(scene, renderer) {
     blogSign,
     cat,
     environment,
+    autoDoor,
+    doorPanels: storeRefs.doorPanels,
+    sensorLamp: storeRefs.sensorLamp,
 
     update(dt) {
       clock += dt;
@@ -101,6 +111,9 @@ export function buildWorld(scene, renderer) {
 
       // 门前小猫：按时间段调整作息，坐一会、跑一段、再跑回来
       cat.update(dt, t, environment.time, environment.weather);
+
+      // 自动门：猫咪跑过门口时打开，离开后缓闭
+      autoDoor.update(dt);
 
       // 竖招与门头光晕：慢呼吸 + 偶发电流闪烁
       const buzz = Math.sin(clock * 21.0) * Math.sin(clock * 6.7);
