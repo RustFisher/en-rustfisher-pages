@@ -110,7 +110,7 @@ export function buildWorld(scene, renderer) {
       smokers.update(dt, t);
 
       // 门前小猫：按时间段调整作息，坐一会、跑一段、再跑回来
-      cat.update(dt, t, environment.time, environment.weather);
+      cat.update(dt, t, environment.time, environment.weather, environment.rainAmount);
 
       // 自动门：猫咪跑过门口时打开，离开后缓闭
       autoDoor.update(dt);

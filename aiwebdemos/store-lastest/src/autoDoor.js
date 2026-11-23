@@ -27,7 +27,9 @@ export function createAutoDoor({ panels, sensorLamp, cat }) {
 
   function catInZone() {
     const x = cat.position.x;
-    return cat.position.z > -2.2 && x > TRIGGER_MIN && x < TRIGGER_MAX;
+    const z = cat.position.z;
+    // 只在门口附近触发；猫在路边 z≈1.0 时不应开门
+    return z > -1.9 && z < -0.55 && x > TRIGGER_MIN && x < TRIGGER_MAX;
   }
 
   function apply() {

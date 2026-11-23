@@ -133,7 +133,7 @@ function makeTail() {
 export function buildCat(builder) {
   const root = new THREE.Group();
   root.name = 'cat';
-  root.position.set(CAT.home.x, CAT.y, CAT.home.z);
+  root.position.set(CAT.shelter.home.x, CAT.shelter.y, CAT.shelter.home.z);
   root.rotation.y = Math.PI / 2;
 
   const shadow = contactShadow(0.72, 0.42, 0.45);
@@ -236,8 +236,8 @@ export function buildCat(builder) {
 
   builder.add(root, { delay: 3.45, dur: 0.55, mode: 'pop' });
 
-  const HOME = new THREE.Vector3(CAT.home.x, CAT.y, CAT.home.z);
-  const FAR = new THREE.Vector3(CAT.far.x, CAT.y, CAT.far.z);
+  const HOME = new THREE.Vector3();
+  const FAR = new THREE.Vector3();
 
   let state = 'sitHome';
   let stateT = 0;
@@ -254,6 +254,25 @@ export function buildCat(builder) {
   let skyWeather = 'rain';
   let petTimer = 0;
   let petBlend = 0;
+  let zone = 'shelter';
+  let relocate = null;
+  let zoneCooldown = 0;
+
+  function applyZone(name, snap) {
+    const def = CAT[name] || CAT.shelter;
+    zone = name;
+    HOME.set(def.home.x, def.y, def.home.z);
+    FAR.set(def.far.x, def.y, def.far.z);
+
+    if (snap) {
+      root.position.copy(HOME);
+      yaw = Math.PI / 2;
+      yawTarget = yaw;
+      root.rotation.y = yaw;
+    }
+  }
+
+  applyZone('shelter', true);
 
   const mood = () => MOODS[timeOfDay] || MOODS.night;
 
@@ -308,17 +327,32 @@ export function buildCat(builder) {
       return petTimer > 0;
     },
 
+    get zone() {
+      return zone;
+    },
+
+    get relocating() {
+      return relocate !== null;
+    },
+
     pet() {
       if (active) petTimer = 2.2;
     },
 
-    update(dt, t, mode = 'night', weather = 'rain') {
+    update(dt, t, mode = 'night', weather = 'rain', rainAmount = 1) {
       timeOfDay = MOODS[mode] ? mode : 'night';
       skyWeather = weather;
 
       const petting = petTimer > 0;
 
+      let wantZone = zone;
+      if (zone === 'road' && rainAmount > 0.5) wantZone = 'shelter';
+      else if (zone === 'shelter' && rainAmount < 0.15) wantZone = 'road';
+
       if (!active) {
+        if (rainAmount > 0.5 && zone !== 'shelter') applyZone('shelter', true);
+        else if (rainAmount <= 0.5 && zone !== 'road') applyZone('road', true);
+
         if (t > 4.6) {
           active = true;
           stateT = 0;
@@ -328,12 +362,49 @@ export function buildCat(builder) {
         }
       } else {
         clock += dt;
+        if (zoneCooldown > 0) zoneCooldown = Math.max(0, zoneCooldown - dt);
         if (petting) petTimer = Math.max(0, petTimer - dt);
         else stateT += dt;
       }
 
       if (active) {
-        if (!petting) {
+        // 天气变化时先走到新的活动区域，再恢复坐/跑
+        if (!relocate && !petting && zoneCooldown <= 0 && wantZone !== zone) {
+          const def = CAT[wantZone];
+          const from = root.position.clone();
+          const useFar = Math.abs(from.x - def.far.x) < Math.abs(from.x - def.home.x);
+          const aim = useFar ? def.far : def.home;
+
+          applyZone(wantZone, false);
+          relocate = {
+            from,
+            to: new THREE.Vector3(aim.x, def.y, aim.z),
+            t: 0,
+            dur: Math.max(0.9, from.distanceTo(new THREE.Vector3(aim.x, def.y, aim.z)) / 1.2),
+            sit: useFar ? 'sitFar' : 'sitHome',
+          };
+          state = 'relocate';
+          stateT = 0;
+          yawTarget = Math.atan2(relocate.to.x - from.x, relocate.to.z - from.z);
+        }
+
+        if (relocate) {
+          if (!petting) {
+            relocate.t += dt;
+            const p = Math.min(1, relocate.t / relocate.dur);
+            const e = p * p * (3 - 2 * p);
+            root.position.lerpVectors(relocate.from, relocate.to, e);
+
+            if (p >= 1) {
+              state = relocate.sit;
+              stateT = 0;
+              stateDur = sitDuration();
+              zoneCooldown = 2.5;
+              yawTarget = state === 'sitFar' ? -Math.PI / 2 : Math.PI / 2;
+              relocate = null;
+            }
+          }
+        } else if (!petting) {
           if (state === 'sitHome') {
             if (stateT > stateDur) enterRun('runOut');
           } else if (state === 'sitFar') {
@@ -358,7 +429,11 @@ export function buildCat(builder) {
       petBlend += ((petting ? 1 : 0) - petBlend) * Math.min(1, dt * 10);
 
       const resting = state === 'sitHome' || state === 'sitFar';
-      const running = active && !petting && (state === 'runOut' || state === 'runBack') && stateT > 0.25;
+      const running =
+        active &&
+        !petting &&
+        ((state === 'relocate' && relocate && relocate.t > 0.08) ||
+          ((state === 'runOut' || state === 'runBack') && stateT > 0.25));
 
       const target = running ? 0 : 1;
       blend += (target - blend) * Math.min(1, dt * 9);
