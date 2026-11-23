@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://en.rustfisher.com/ai/turkey-run-3d-thanksgiving-escape-game/</loc>
+    <loc>https://en.rustfisher.com/ai/turkey-run-3d-escape-game/</loc>
     
     <lastmod>2026-11-23</lastmod>
     
@@ -128,6 +128,15 @@
   </url>
   
   <url>
+    <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_3.html</loc>
+    
+    <lastmod>2025-08-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_1.html</loc>
     
     <lastmod>2025-08-01</lastmod>
@@ -138,15 +147,6 @@
   
   <url>
     <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_2.html</loc>
-    
-    <lastmod>2025-08-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://en.rustfisher.com/art/py/op-funnel/funnel_chart_3.html</loc>
     
     <lastmod>2025-08-01</lastmod>
     
@@ -276,20 +276,6 @@
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/tags/self-improvement/</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://en.rustfisher.com/tags/dopamine/</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://en.rustfisher.com/tags/web/</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -331,6 +317,20 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://en.rustfisher.com/tags/self-improvement/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/tags/dopamine/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -341,14 +341,14 @@
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/categories/self-improvement/</loc>
+    <loc>https://en.rustfisher.com/categories/Web-note/</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/categories/Web-note/</loc>
+    <loc>https://en.rustfisher.com/categories/self-improvement/</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
