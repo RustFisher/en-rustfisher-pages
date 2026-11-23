@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://en.rustfisher.com/ai/turkey-run-3d-thanksgiving-escape-game/</loc>
+    
+    <lastmod>2026-11-23</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://en.rustfisher.com/ai/evolving-3d-rainy-night-convenience-store/</loc>
     
     <lastmod>2026-11-23</lastmod>
@@ -260,14 +269,7 @@
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/tags/web/</loc>
-    <lastmod>2026-11-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://en.rustfisher.com/tags/Vite/</loc>
+    <loc>https://en.rustfisher.com/tags/Thanksgiving/</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -282,6 +284,20 @@
   
   <url>
     <loc>https://en.rustfisher.com/tags/dopamine/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/tags/web/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://en.rustfisher.com/tags/Vite/</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -325,14 +341,14 @@
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/categories/Web-note/</loc>
+    <loc>https://en.rustfisher.com/categories/self-improvement/</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://en.rustfisher.com/categories/self-improvement/</loc>
+    <loc>https://en.rustfisher.com/categories/Web-note/</loc>
     <lastmod>2026-11-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
