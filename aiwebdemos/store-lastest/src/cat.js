@@ -130,9 +130,10 @@ function makeTail() {
   return { root, j1: a.joint, j2: b.joint };
 }
 
-export function buildCat(builder) {
+export function buildCat() {
   const root = new THREE.Group();
   root.name = 'cat';
+  root.visible = false;
   root.position.set(CAT.shelter.home.x, CAT.shelter.y, CAT.shelter.home.z);
   root.rotation.y = Math.PI / 2;
 
@@ -171,12 +172,14 @@ export function buildCat(builder) {
   head.add(nose);
 
   const eyes = [];
+  const ears = [];
 
   [-1, 1].forEach((sx) => {
     const ear = new THREE.Mesh(new THREE.ConeGeometry(0.034, 0.062, 4), furMat);
     ear.position.set(sx * 0.052, 0.078, -0.008);
     ear.rotation.z = -sx * 0.22;
     head.add(ear);
+    ears.push({ mesh: ear, baseZ: -sx * 0.22, side: sx });
 
     const inner = new THREE.Mesh(new THREE.ConeGeometry(0.019, 0.038, 4), innerMat);
     inner.position.set(sx * 0.052, 0.075, 0.002);
@@ -234,8 +237,6 @@ export function buildCat(builder) {
   heart.renderOrder = 6;
   root.add(heart);
 
-  builder.add(root, { delay: 3.45, dur: 0.55, mode: 'pop' });
-
   const HOME = new THREE.Vector3();
   const FAR = new THREE.Vector3();
 
@@ -257,6 +258,17 @@ export function buildCat(builder) {
   let zone = 'shelter';
   let relocate = null;
   let zoneCooldown = 0;
+  let action = 'idle';
+  let actionT = 0;
+  let actionCooldown = 4 + Math.random() * 5;
+  let socialTimer = 0;
+  let socialTarget = null;
+  let socialBlend = 0;
+  let groomBlend = 0;
+  let yawnBlend = 0;
+  let groomSign = 1;
+  let blinkPhase = Math.random() * Math.PI * 2;
+  let flickPhase = Math.random() * Math.PI * 2;
 
   function applyZone(name, snap) {
     const def = CAT[name] || CAT.shelter;
@@ -335,15 +347,60 @@ export function buildCat(builder) {
       return relocate !== null;
     },
 
+    get action() {
+      return action;
+    },
+
+    get groomLevel() {
+      return groomBlend;
+    },
+
+    get yawnLevel() {
+      return yawnBlend;
+    },
+
+    get canPlay() {
+      return (
+        active &&
+        petTimer <= 0 &&
+        !relocate &&
+        socialTimer <= 0 &&
+        (state === 'sitHome' || state === 'sitFar')
+      );
+    },
+
+    get playing() {
+      return socialTimer > 0;
+    },
+
+    beginPlay(position) {
+      if (!this.canPlay) return false;
+      socialTimer = 5.5;
+      socialTarget = position;
+      action = 'idle';
+      actionCooldown = 4 + Math.random() * 3;
+      return true;
+    },
+
+    endPlay() {
+      socialTimer = 0;
+      socialTarget = null;
+    },
+
     pet() {
-      if (active) petTimer = 2.2;
+      if (active && socialTimer <= 0) petTimer = 2.2;
     },
 
     update(dt, t, mode = 'night', weather = 'rain', rainAmount = 1) {
       timeOfDay = MOODS[mode] ? mode : 'night';
       skyWeather = weather;
 
+      const appear = THREE.MathUtils.smoothstep(t, 4.25, 4.85);
+      root.visible = appear > 0.001;
+      root.scale.setScalar(0.001 + 0.999 * appear);
+
       const petting = petTimer > 0;
+      const socialActive = socialTimer > 0;
 
       let wantZone = zone;
       if (zone === 'road' && rainAmount > 0.5) wantZone = 'shelter';
@@ -353,7 +410,7 @@ export function buildCat(builder) {
         if (rainAmount > 0.5 && zone !== 'shelter') applyZone('shelter', true);
         else if (rainAmount <= 0.5 && zone !== 'road') applyZone('road', true);
 
-        if (t > 4.6) {
+        if (t > 4.9) {
           active = true;
           stateT = 0;
           stateDur = sitDuration();
@@ -364,12 +421,13 @@ export function buildCat(builder) {
         clock += dt;
         if (zoneCooldown > 0) zoneCooldown = Math.max(0, zoneCooldown - dt);
         if (petting) petTimer = Math.max(0, petTimer - dt);
-        else stateT += dt;
+        if (socialActive) socialTimer = Math.max(0, socialTimer - dt);
+        if (!petting && !socialActive) stateT += dt;
       }
 
       if (active) {
         // 天气变化时先走到新的活动区域，再恢复坐/跑
-        if (!relocate && !petting && zoneCooldown <= 0 && wantZone !== zone) {
+        if (!relocate && !petting && !socialActive && zoneCooldown <= 0 && wantZone !== zone) {
           const def = CAT[wantZone];
           const from = root.position.clone();
           const useFar = Math.abs(from.x - def.far.x) < Math.abs(from.x - def.home.x);
@@ -404,7 +462,7 @@ export function buildCat(builder) {
               relocate = null;
             }
           }
-        } else if (!petting) {
+        } else if (!petting && !socialActive) {
           if (state === 'sitHome') {
             if (stateT > stateDur) enterRun('runOut');
           } else if (state === 'sitFar') {
@@ -422,11 +480,18 @@ export function buildCat(builder) {
           }
         }
 
+        if (socialActive && socialTarget) {
+          const sdx = socialTarget.x - root.position.x;
+          const sdz = socialTarget.z - root.position.z;
+          if (Math.hypot(sdx, sdz) > 0.01) yawTarget = Math.atan2(sdx, sdz);
+        }
+
         yaw += shortest(yaw, yawTarget) * Math.min(1, dt * 7);
         root.rotation.y = yaw;
       }
 
       petBlend += ((petting ? 1 : 0) - petBlend) * Math.min(1, dt * 10);
+      socialBlend += ((socialActive ? 1 : 0) - socialBlend) * Math.min(1, dt * 8);
 
       const resting = state === 'sitHome' || state === 'sitFar';
       const running =
@@ -435,12 +500,46 @@ export function buildCat(builder) {
         ((state === 'relocate' && relocate && relocate.t > 0.08) ||
           ((state === 'runOut' || state === 'runBack') && stateT > 0.25));
 
-      const target = running ? 0 : 1;
+      const target = running || socialActive ? 0 : 1;
       blend += (target - blend) * Math.min(1, dt * 9);
 
       // 中午犯困：在长坐时趴下，眼睛眯起；被摸时先抬头
-      const napTarget = active && resting && mood().nap && stateT > 2.5 && !petting ? 1 : 0;
+      const napTarget = active && resting && mood().nap && stateT > 2.5 && !petting && !socialActive ? 1 : 0;
       lie += (napTarget - lie) * Math.min(1, dt * 5);
+
+      // 坐着时的随机小动作：舔爪 / 打哈欠
+      const canIdleAction = active && resting && !petting && !relocate && lie < 0.45;
+      if (!canIdleAction && action !== 'idle') {
+        action = 'idle';
+        actionCooldown = 2 + Math.random() * 3;
+      } else if (action === 'idle' && canIdleAction) {
+        actionCooldown -= dt;
+        if (actionCooldown <= 0) {
+          const roll = Math.random();
+          if (roll < 0.55) {
+            action = 'groom';
+            actionT = 2.2 + Math.random() * 1.2;
+            groomSign = Math.random() < 0.5 ? -1 : 1;
+          } else if (roll < 0.8) {
+            action = 'yawn';
+            actionT = 1.2 + Math.random() * 0.4;
+          } else {
+            actionCooldown = 3 + Math.random() * 3;
+          }
+        }
+      } else if (action !== 'idle') {
+        actionT -= dt;
+        if (actionT <= 0) {
+          action = 'idle';
+          actionCooldown = 5 + Math.random() * 5;
+        }
+      }
+
+      groomBlend += ((action === 'groom' ? 1 : 0) - groomBlend) * Math.min(1, dt * 10);
+      yawnBlend += ((action === 'yawn' ? 1 : 0) - yawnBlend) * Math.min(1, dt * 8);
+
+      const blink = Math.pow(Math.max(0, Math.sin(clock * 0.8 + blinkPhase)), 28);
+      const flick = Math.pow(Math.max(0, Math.sin(clock * 0.55 + flickPhase)), 24);
 
       const mix = (stand, sit, nap) => lerp(lerp(stand, sit, blend), nap, lie);
 
@@ -450,20 +549,41 @@ export function buildCat(builder) {
       const bob = run * Math.sin(gait * 2) * 0.007;
       const breathe = lie * Math.sin(clock * 1.1) * 0.002;
 
-      body.position.y = mix(STAND.y, SIT.y, NAP.y) + bob + breathe;
-      body.rotation.x = mix(STAND.pitch, SIT.pitch, NAP.pitch) + run * 0.05;
-      body.rotation.z = run * Math.sin(gait) * 0.025 + petBlend * Math.sin(clock * 9) * 0.02;
+      body.position.y =
+        mix(STAND.y, SIT.y, NAP.y) +
+        bob +
+        breathe +
+        yawnBlend * 0.008 +
+        socialBlend * Math.abs(Math.sin(clock * 9)) * 0.012;
+      body.rotation.x =
+        mix(STAND.pitch, SIT.pitch, NAP.pitch) +
+        run * 0.05 -
+        yawnBlend * 0.04 -
+        socialBlend * 0.06 +
+        socialBlend * Math.sin(clock * 9) * 0.04;
+      body.rotation.z =
+        run * Math.sin(gait) * 0.025 +
+        petBlend * Math.sin(clock * 9) * 0.02 +
+        groomBlend * Math.sin(clock * 4) * 0.015 +
+        socialBlend * Math.sin(clock * 7) * 0.04;
 
       head.rotation.x =
         mix(STAND.headX, SIT.headX, NAP.headX) +
         run * Math.sin(gait * 2) * 0.035 -
-        petBlend * 0.2;
+        petBlend * 0.2 -
+        yawnBlend * 0.24 -
+        groomBlend * 0.12 +
+        groomBlend * Math.sin(clock * 9) * 0.05 -
+        socialBlend * Math.sin(clock * 10) * 0.12;
       head.rotation.y =
         blend * (1 - lie) * Math.sin(clock * 0.6 + 1.7) * 0.35 +
-        petBlend * Math.sin(clock * 6) * 0.12;
+        petBlend * Math.sin(clock * 6) * 0.12 +
+        groomSign * 0.2 * groomBlend +
+        socialBlend * Math.sin(clock * 5) * 0.18;
 
+      const closed = Math.min(0.95, Math.max(lie * 0.88, blink * 0.85, yawnBlend * 0.8));
       eyes.forEach((eye) => {
-        eye.scale.y = 0.014 * (1 - 0.88 * lie);
+        eye.scale.y = 0.014 * (1 - closed);
       });
 
       const swing = Math.sin(gait) * 0.65 * run;
@@ -474,15 +594,34 @@ export function buildCat(builder) {
       legRL.rotation.x = legR - swing;
       legRR.rotation.x = legR + swing;
 
+      if (groomBlend > 0.01) {
+        (groomSign < 0 ? legFL : legFR).rotation.x -= 1.35 * groomBlend;
+      }
+
+      if (socialBlend > 0.01) {
+        const swipe = Math.sin(clock * 6.5);
+        if (swipe > 0) legFR.rotation.x -= swipe * 0.95 * socialBlend;
+        else legFL.rotation.x += swipe * 0.95 * socialBlend;
+      }
+
       const tailX = mix(STAND.tailX, SIT.tailX, NAP.tailX);
       const tailY = mix(STAND.tailY, SIT.tailY, NAP.tailY);
       const tailJ1 = mix(STAND.tailJ1, SIT.tailJ1, NAP.tailJ1);
       const tailJ2 = mix(STAND.tailJ2, SIT.tailJ2, NAP.tailJ2);
       tail.root.rotation.x = tailX + Math.sin(clock * 1.7) * 0.06 * (1 - lie);
       tail.root.rotation.y =
-        tailY + Math.sin(clock * 1.1) * 0.12 * (1 - lie) + petBlend * Math.sin(clock * 8) * 0.16;
+        tailY +
+        Math.sin(clock * 1.1) * 0.12 * (1 - lie) +
+        petBlend * Math.sin(clock * 8) * 0.16 +
+        flick * 0.3 * (1 - lie) +
+        socialBlend * (0.35 + Math.sin(clock * 7) * 0.2);
       tail.j1.rotation.y = tailJ1 + Math.sin(clock * 1.5 + 0.8) * 0.15 * (1 - lie);
       tail.j2.rotation.y = tailJ2 + Math.sin(clock * 1.9 + 1.6) * 0.18 * (1 - lie);
+
+      const twitch = Math.max(blink * 0.4, Math.pow(Math.max(0, Math.sin(clock * 1.9 + blinkPhase * 0.7)), 30));
+      ears.forEach(({ mesh, baseZ, side }) => {
+        mesh.rotation.z = baseZ + side * 0.1 * twitch - side * 0.18 * socialBlend;
+      });
 
       heart.visible = petBlend > 0.02;
       heart.material.opacity = petBlend * 0.92;

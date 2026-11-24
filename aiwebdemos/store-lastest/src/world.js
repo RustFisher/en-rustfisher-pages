@@ -7,7 +7,11 @@ import { buildProps } from './props.js';
 import { buildBlogSign } from './blogSign.js';
 import { buildSmokers } from './smokers.js';
 import { buildCat } from './cat.js';
+import { createBlackCat } from './blackcat01.js';
 import { buildCustomer } from './customer.js';
+import { buildTrafficLight } from './trafficLight.js';
+import { createCar } from './car.js';
+import { createCrow } from './crow.js';
 import { Assembly } from './assembly.js';
 import { createRain } from './rain.js';
 import { createEnvironment } from './environment.js';
@@ -59,8 +63,11 @@ export function buildWorld(scene, renderer) {
   const storeRefs = buildStore(builder);
   buildBuildings(builder);
   buildProps(builder);
+  const trafficLight = buildTrafficLight(builder);
   const blogSign = buildBlogSign(builder);
-  const cat = buildCat(builder);
+  const cat = buildCat();
+  scene.add(cat.group);
+  const blackCat = createBlackCat(scene, cat);
   const customer = buildCustomer(builder);
   const smokers = buildSmokers(builder);
 
@@ -77,6 +84,8 @@ export function buildWorld(scene, renderer) {
 
   /* ---------------- 雨 ---------------- */
   const rain = createRain(scene);
+  const car = createCar(scene);
+  const crow = createCrow(scene);
 
   /* ---------------- 霓虹呼吸 / 轻微闪烁 ---------------- */
   const signGlow = scene.getObjectByName('signGlow');
@@ -90,7 +99,11 @@ export function buildWorld(scene, renderer) {
     rain,
     blogSign,
     cat,
+    catblack01: blackCat,
     customer001: customer,
+    trafficLight,
+    car001: car,
+    crow001: crow,
     environment,
     autoDoor,
     doorPanels: storeRefs.doorPanels,
@@ -101,6 +114,13 @@ export function buildWorld(scene, renderer) {
       const t = assembly.update(dt);
 
       environment.update(dt);
+      trafficLight.update(dt);
+      car.update(dt, t, {
+        frontGreen: trafficLight.frontGreen,
+        rainAmount: environment.rainAmount,
+        timeMode: environment.time,
+      });
+      crow.update(dt, t);
 
       // 雨在装配尾段淡入；天气切到晴朗/多云时雨量归零
       const assemblyRain = THREE.MathUtils.smoothstep(t, 4.4, 5.8);
@@ -114,6 +134,7 @@ export function buildWorld(scene, renderer) {
 
       // 门前小猫：按时间段调整作息，坐一会、跑一段、再跑回来
       cat.update(dt, t, environment.time, environment.weather, environment.rainAmount);
+      blackCat.update(dt, t);
       customer.update(dt, t, environment.rainAmount);
 
       // 自动门：猫咪跑过门口时打开，离开后缓闭
