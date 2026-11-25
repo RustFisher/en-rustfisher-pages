@@ -134,7 +134,7 @@ export function buildWorld(scene, renderer) {
 
       // 门前小猫：按时间段调整作息，坐一会、跑一段、再跑回来
       cat.update(dt, t, environment.time, environment.weather, environment.rainAmount);
-      blackCat.update(dt, t);
+      blackCat.update(dt, t, environment.rainAmount);
       customer.update(dt, t, environment.rainAmount);
 
       // 自动门：猫咪跑过门口时打开，离开后缓闭

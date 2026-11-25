@@ -60,6 +60,7 @@ export const L = {
     spawn: { x: 3.5, y: 0.22, z: -1.8 },
     meetOffset: { x: 0.55, z: 0.05 },
     flee: { x: -13.2, z: 0.32 },
+    cover: { x: -0.25, y: 0.222, z: -1.2 },
     cooldown: [60, 110],
   },
 

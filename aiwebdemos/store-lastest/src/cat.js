@@ -171,6 +171,13 @@ export function buildCat() {
   nose.position.set(0, -0.014, 0.108);
   head.add(nose);
 
+  const jaw = new THREE.Group();
+  jaw.position.set(0, -0.03, 0.05);
+  head.add(jaw);
+  const jawMesh = ellipsoid(0.05, 0.012, 0.04, toon(0x5a3b3b), 8);
+  jawMesh.position.set(0, -0.004, 0.02);
+  jaw.add(jawMesh);
+
   const eyes = [];
   const ears = [];
 
@@ -263,6 +270,7 @@ export function buildCat() {
   let actionCooldown = 4 + Math.random() * 5;
   let socialTimer = 0;
   let socialTarget = null;
+  let socialPose = null;
   let socialBlend = 0;
   let groomBlend = 0;
   let yawnBlend = 0;
@@ -373,18 +381,24 @@ export function buildCat() {
       return socialTimer > 0;
     },
 
-    beginPlay(position) {
+    beginPlay(position, duration = 5.5) {
       if (!this.canPlay) return false;
-      socialTimer = 5.5;
+      socialTimer = duration;
       socialTarget = position;
+      socialPose = null;
       action = 'idle';
       actionCooldown = 4 + Math.random() * 3;
       return true;
     },
 
+    setPlayPose(pose) {
+      socialPose = pose;
+    },
+
     endPlay() {
       socialTimer = 0;
       socialTarget = null;
+      socialPose = null;
     },
 
     pet() {
@@ -541,6 +555,17 @@ export function buildCat() {
       const blink = Math.pow(Math.max(0, Math.sin(clock * 0.8 + blinkPhase)), 28);
       const flick = Math.pow(Math.max(0, Math.sin(clock * 0.55 + flickPhase)), 24);
 
+      const sp = socialPose || {};
+      const crouch = (sp.crouch || 0) * socialBlend;
+      const lean = (sp.lean || 0) * socialBlend;
+      const sideLean = (sp.side || 0) * socialBlend;
+      const hop = (sp.hop || 0) * socialBlend;
+      const pawL = (sp.pawL || 0) * socialBlend;
+      const pawR = (sp.pawR || 0) * socialBlend;
+      const jawOpen = (sp.jaw || 0) * socialBlend;
+      const tailUp = (sp.tailUp || 0) * socialBlend;
+      const tailLash = (sp.tailLash || 0) * socialBlend;
+
       const mix = (stand, sit, nap) => lerp(lerp(stand, sit, blend), nap, lie);
 
       gait += dt * (2 + (running ? 13 : 0));
@@ -554,18 +579,19 @@ export function buildCat() {
         bob +
         breathe +
         yawnBlend * 0.008 +
-        socialBlend * Math.abs(Math.sin(clock * 9)) * 0.012;
+        hop * 0.05 -
+        crouch * 0.03;
       body.rotation.x =
         mix(STAND.pitch, SIT.pitch, NAP.pitch) +
         run * 0.05 -
-        yawnBlend * 0.04 -
-        socialBlend * 0.06 +
-        socialBlend * Math.sin(clock * 9) * 0.04;
+        yawnBlend * 0.04 +
+        lean * 0.18 -
+        crouch * 0.04;
       body.rotation.z =
         run * Math.sin(gait) * 0.025 +
         petBlend * Math.sin(clock * 9) * 0.02 +
         groomBlend * Math.sin(clock * 4) * 0.015 +
-        socialBlend * Math.sin(clock * 7) * 0.04;
+        sideLean * 0.12;
 
       head.rotation.x =
         mix(STAND.headX, SIT.headX, NAP.headX) +
@@ -573,13 +599,14 @@ export function buildCat() {
         petBlend * 0.2 -
         yawnBlend * 0.24 -
         groomBlend * 0.12 +
-        groomBlend * Math.sin(clock * 9) * 0.05 -
-        socialBlend * Math.sin(clock * 10) * 0.12;
+        groomBlend * Math.sin(clock * 9) * 0.05 +
+        (sp.headPitch || 0) * socialBlend * 0.4 +
+        crouch * 0.03;
       head.rotation.y =
         blend * (1 - lie) * Math.sin(clock * 0.6 + 1.7) * 0.35 +
         petBlend * Math.sin(clock * 6) * 0.12 +
         groomSign * 0.2 * groomBlend +
-        socialBlend * Math.sin(clock * 5) * 0.18;
+        (sp.headYaw || 0) * socialBlend * 0.4;
 
       const closed = Math.min(0.95, Math.max(lie * 0.88, blink * 0.85, yawnBlend * 0.8));
       eyes.forEach((eye) => {
@@ -599,29 +626,30 @@ export function buildCat() {
       }
 
       if (socialBlend > 0.01) {
-        const swipe = Math.sin(clock * 6.5);
-        if (swipe > 0) legFR.rotation.x -= swipe * 0.95 * socialBlend;
-        else legFL.rotation.x += swipe * 0.95 * socialBlend;
+        legFL.rotation.x -= pawL * 1.25;
+        legFR.rotation.x -= pawR * 1.25;
       }
 
       const tailX = mix(STAND.tailX, SIT.tailX, NAP.tailX);
       const tailY = mix(STAND.tailY, SIT.tailY, NAP.tailY);
       const tailJ1 = mix(STAND.tailJ1, SIT.tailJ1, NAP.tailJ1);
       const tailJ2 = mix(STAND.tailJ2, SIT.tailJ2, NAP.tailJ2);
-      tail.root.rotation.x = tailX + Math.sin(clock * 1.7) * 0.06 * (1 - lie);
+      tail.root.rotation.x = tailX + Math.sin(clock * 1.7) * 0.06 * (1 - lie) + tailUp * 0.45;
       tail.root.rotation.y =
         tailY +
         Math.sin(clock * 1.1) * 0.12 * (1 - lie) +
         petBlend * Math.sin(clock * 8) * 0.16 +
         flick * 0.3 * (1 - lie) +
-        socialBlend * (0.35 + Math.sin(clock * 7) * 0.2);
+        tailLash * 0.35;
       tail.j1.rotation.y = tailJ1 + Math.sin(clock * 1.5 + 0.8) * 0.15 * (1 - lie);
       tail.j2.rotation.y = tailJ2 + Math.sin(clock * 1.9 + 1.6) * 0.18 * (1 - lie);
 
       const twitch = Math.max(blink * 0.4, Math.pow(Math.max(0, Math.sin(clock * 1.9 + blinkPhase * 0.7)), 30));
       ears.forEach(({ mesh, baseZ, side }) => {
-        mesh.rotation.z = baseZ + side * 0.1 * twitch - side * 0.18 * socialBlend;
+        mesh.rotation.z = baseZ + side * 0.1 * twitch - side * 0.2 * crouch;
       });
+
+      jaw.rotation.x = jawOpen * 0.55;
 
       heart.visible = petBlend > 0.02;
       heart.material.opacity = petBlend * 0.92;
